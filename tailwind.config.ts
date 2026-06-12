@@ -9,8 +9,25 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        base: "var(--bg-base)",
+        surface: "var(--bg-surface)",
+        elevated: "var(--bg-elevated)",
+        border: "var(--border)",
+        "border-subtle": "var(--border-subtle)",
+        "text-primary": "var(--text-primary)",
+        "text-secondary": "var(--text-secondary)",
+        "text-muted": "var(--text-muted)",
+        accent: "var(--accent)",
+        "accent-dim": "var(--accent-dim)",
+        danger: "var(--danger)",
+        success: "var(--success)",
+      },
+      boxShadow: {
+        "accent-glow": "var(--accent-glow)",
+      },
+      fontFamily: {
+        sans: ["var(--font-geist-sans)", "sans-serif"],
+        mono: ["var(--font-geist-mono)", "monospace"],
       },
     },
   },

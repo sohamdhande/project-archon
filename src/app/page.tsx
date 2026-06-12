@@ -1,101 +1,135 @@
-import Image from "next/image";
+import { prisma } from '@/lib/db';
 
-export default function Home() {
+export const revalidate = 30;
+
+export default async function PublicPage() {
+  const [students, sessions, attendance] = await Promise.all([
+    prisma.student.findMany(),
+    prisma.session.findMany({ orderBy: { datetime: 'asc' } }),
+    prisma.attendance.findMany()
+  ]);
+
+  const getAttendanceCount = (studentId: string) =>
+    attendance.filter((a: { studentId: string }) => a.studentId === studentId).length;
+
+  const getScore = (student: typeof students[0]) =>
+    getAttendanceCount(student.id) * 5 + student.manualPoints;
+
+  const sorted = [...students]
+    .map((s) => ({
+      id: s.id,
+      name: s.name,
+      score: getScore(s),
+      attendanceCount: getAttendanceCount(s.id)
+    }))
+    .sort((a, b) => b.score - a.score);
+
+  let currentRank = 1;
+  const rankedStudents = sorted.map((s, i) => {
+    if (i > 0 && s.score < sorted[i - 1].score) {
+      currentRank = i + 1;
+    }
+    return { ...s, rank: currentRank };
+  });
+
+  const attendanceSet = new Set(attendance.map((a: { studentId: string, sessionId: string }) => `${a.studentId}-${a.sessionId}`));
+  const isPresent = (studentId: string, sessionId: string) =>
+    attendanceSet.has(`${studentId}-${sessionId}`);
+
+  const getRankClass = (rank: number) => {
+    if (rank === 1) return 'rank-gold';
+    if (rank === 2) return 'rank-silver';
+    if (rank === 3) return 'rank-bronze';
+    return 'rank-default';
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <>
+      <div className="top-glow-bar" />
+      
+      {/* Hero Section */}
+      <section style={{ 
+        minHeight: '60vh', 
+        display: 'flex', 
+        flexDirection: 'column', 
+        alignItems: 'center', 
+        justifyContent: 'center',
+        position: 'relative'
+      }}>
+        <h1 style={{ 
+          fontFamily: 'var(--font-grotesk)', 
+          fontSize: 'clamp(4rem, 8vw, 8rem)', 
+          fontWeight: 700, 
+          lineHeight: 1, 
+          margin: 0,
+          textAlign: 'center'
+        }}>
+          <span style={{ color: 'var(--text-primary)' }}>Project</span><br />
+          <span style={{ 
+            color: 'var(--accent)', 
+            textShadow: '0 0 40px rgba(45, 212, 191, 0.4), 0 0 10px rgba(45, 212, 191, 0.2)' 
+          }}>Archon</span>
+        </h1>
+        <p style={{ 
+          fontFamily: 'var(--font-mono)', 
+          color: 'var(--text-muted)', 
+          fontSize: '14px', 
+          marginTop: '24px',
+          textTransform: 'uppercase',
+          letterSpacing: '0.1em'
+        }}>
+          Dev Club · Crash Course
+        </p>
+      </section>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      {/* Divider */}
+      <div style={{ height: '1px', background: 'var(--accent)', opacity: 0.2, width: '100%' }} />
+
+      {/* Main Content Area */}
+      <main style={{ maxWidth: '900px', margin: '0 auto', padding: '64px 24px 120px', display: 'flex', flexDirection: 'column', gap: '48px' }}>
+        
+        {/* Leaderboard Card */}
+        <div className="public-card fade-in delay-1">
+          <div className="section-label">LEADERBOARD</div>
+          
+          <table className="public-table">
+            <thead>
+              <tr>
+                <th style={{ width: '80px' }}>Rank</th>
+                <th>Name</th>
+                <th style={{ textAlign: 'center' }}>Attendance</th>
+                <th style={{ textAlign: 'right' }}>Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rankedStudents.length === 0 ? (
+                <tr>
+                  <td colSpan={4} style={{ textAlign: 'center', padding: '48px 0', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', fontSize: '13px' }}>
+                    No students yet — be the first.
+                  </td>
+                </tr>
+              ) : (
+                rankedStudents.map((s) => (
+                  <tr key={s.id} className="public-tr">
+                    <td style={{ fontFamily: 'var(--font-mono)', fontWeight: 600 }}>
+                      <span className={getRankClass(s.rank)}>#</span> {s.rank}
+                    </td>
+                    <td style={{ fontWeight: 500 }}>{s.name}</td>
+                    <td style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+                      {s.attendanceCount}/{sessions.length}
+                    </td>
+                    <td style={{ textAlign: 'right', fontFamily: 'var(--font-mono)', color: 'var(--accent)' }}>
+                      {s.score}
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
+
+
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+    </>
   );
 }
