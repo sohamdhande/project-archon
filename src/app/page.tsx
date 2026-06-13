@@ -1,7 +1,7 @@
 import { prisma } from '@/lib/db';
 import PublicClientView from '@/components/public/PublicClientView';
 
-export const revalidate = 30;
+export const dynamic = 'force-dynamic';
 
 export default async function PublicPage() {
   const now = new Date();
