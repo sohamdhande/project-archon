@@ -23,14 +23,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Session not found' }, { status: 404 });
     }
 
-    const now = new Date();
-    const start = new Date(session.lecture_start);
-    const end = new Date(start.getTime() + 2 * 60 * 60 * 1000); // start + 2 hours
-
-    if (now < start || now > end) {
-      return NextResponse.json({ error: 'Attendance can only be marked between lecture start and 2 hours after.' }, { status: 400 });
-    }
-
     await prisma.$transaction(async (tx) => {
       // Clear existing attendance for this session
       await tx.attendance.deleteMany({

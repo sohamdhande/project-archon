@@ -170,102 +170,121 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div style={{ background: 'var(--bg-base)', minHeight: '100vh', position: 'relative' }}>
-      <div style={{ padding: '40px 24px', maxWidth: '1100px', margin: '0 auto' }}>
+    <div style={{ background: 'var(--bg-base)', minHeight: '100vh', position: 'relative', overflow: 'hidden' }}>
+      {/* Cinematic Overlays */}
+      <div className="aurora-glow" style={{ top: '-20%', left: '50%', transform: 'translateX(-50%)', width: '120vw', height: '80vh', opacity: 0.15 }} />
+      <div className="noise-overlay" />
+      <div className="grid-overlay" />
+
+      <div style={{ position: 'relative', zIndex: 10, padding: '60px 24px', maxWidth: '1100px', margin: '0 auto', fontFamily: 'var(--font-sans)' }}>
         
-        <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '20px', borderBottom: '1px solid var(--border)', marginBottom: '40px' }}>
-          <h1 style={{ fontSize: '28px', fontWeight: 600, margin: 0 }}>Admin Dashboard</h1>
+        <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '32px', marginBottom: '48px' }}>
           <div>
-            <a href="/" className="nav-link">← Public Portal</a>
-            <button onClick={async () => { await fetch('/api/logout', { method: 'POST' }); router.push('/login'); }} style={{ color: 'var(--danger)', background: 'none', border: 'none', fontSize: '14px', cursor: 'pointer', textDecoration: 'none' }} onMouseOver={(e) => e.currentTarget.style.textDecoration = 'underline'} onMouseOut={(e) => e.currentTarget.style.textDecoration = 'none'}>Logout</button>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--accent)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '8px' }}>
+              NST-SDC
+            </div>
+            <h1 style={{ fontFamily: 'var(--font-grotesk)', fontSize: '32px', fontWeight: 700, margin: 0, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
+              Admin Dashboard
+            </h1>
+          </div>
+          <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+            <a href="/" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontSize: '14px', transition: 'color 0.2s ease' }} onMouseOver={e => e.currentTarget.style.color = 'var(--text-primary)'} onMouseOut={e => e.currentTarget.style.color = 'var(--text-secondary)'}>← Public Portal</a>
+            <button onClick={async () => { await fetch('/api/logout', { method: 'POST' }); router.push('/login'); }} style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', border: '1px solid rgba(239, 68, 68, 0.2)', padding: '8px 16px', borderRadius: '6px', fontSize: '13px', cursor: 'pointer', transition: 'all 0.2s ease' }} onMouseOver={e => e.currentTarget.style.background = 'rgba(239, 68, 68, 0.2)'} onMouseOut={e => e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)'}>
+              Logout
+            </button>
           </div>
         </header>
 
         {/* OVERVIEW */}
-        <div className="panel">
-          <h2 className="panel-heading">Overview</h2>
+        <div style={{ marginBottom: '64px' }}>
+          <h2 style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '24px' }}>Overview</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
-            <div className="stat-card">
-              <div className="stat-value mono">{totalStudents}</div>
-              <div className="stat-label">Total Students</div>
+            <div className="glass-card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '32px', color: 'var(--text-primary)' }}>{totalStudents}</div>
+              <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Total Students</div>
             </div>
-            <div className="stat-card">
-              <div className="stat-value mono">{totalSessions}</div>
-              <div className="stat-label">Total Sessions</div>
+            <div className="glass-card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '32px', color: 'var(--text-primary)' }}>{totalSessions}</div>
+              <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Total Sessions</div>
             </div>
-            <div className="stat-card">
-              <div className="stat-value mono">{avgAttendance}%</div>
-              <div className="stat-label">Avg Attendance</div>
+            <div className="glass-card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '32px', color: 'var(--accent)' }}>{avgAttendance}%</div>
+              <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Avg Attendance</div>
             </div>
-            <div className="stat-card">
-              <div className="stat-value mono">{avgScore}</div>
-              <div className="stat-label">Avg Score</div>
+            <div className="glass-card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '32px', color: 'var(--text-primary)' }}>{avgScore}</div>
+              <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Avg Score</div>
             </div>
           </div>
         </div>
 
         {/* SESSIONS */}
-        <div className="panel">
-          <h2 className="panel-heading">Sessions</h2>
+        <div style={{ marginBottom: '64px' }}>
+          <h2 style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '24px' }}>Sessions Management</h2>
           
-          {editingSession ? (
-            <form onSubmit={handleEditSessionSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '24px', background: 'var(--bg-elevated)', padding: '16px', borderRadius: '8px' }}>
-              <h3 style={{ margin: 0, fontSize: '16px' }}>Edit Session</h3>
-              <input type="text" required placeholder="Session title" value={editSessionTitle} onChange={e => setEditSessionTitle(e.target.value)} className="input-field" />
-              <div style={{ display: 'flex', gap: '12px' }}>
-                <div style={{ flex: 1 }}><label style={{fontSize: '12px', color: 'var(--text-muted)'}}>Start</label><input type="datetime-local" required value={editSessionStart} onChange={e => setEditSessionStart(e.target.value)} className="input-field" style={{ width: '100%', colorScheme: 'dark' }} /></div>
-                <div style={{ flex: 1 }}><label style={{fontSize: '12px', color: 'var(--text-muted)'}}>End</label><input type="datetime-local" required value={editSessionEnd} onChange={e => setEditSessionEnd(e.target.value)} className="input-field" style={{ width: '100%', colorScheme: 'dark' }} /></div>
-              </div>
-              <input type="url" placeholder="Meet link (optional)" value={editSessionLink} onChange={e => setEditSessionLink(e.target.value)} className="input-field" />
-              <div style={{ display: 'flex', gap: '12px', marginTop: '8px' }}>
-                <button type="submit" className="primary-btn">Save</button>
-                <button type="button" onClick={() => setEditingSession(null)} className="text-btn">Cancel</button>
-              </div>
-            </form>
-          ) : (
-            <form onSubmit={handleAddSession} style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '24px' }}>
-              <input type="text" required placeholder="Session title" value={newSessionTitle} onChange={e => setNewSessionTitle(e.target.value)} className="input-field" />
-              <div style={{ display: 'flex', gap: '12px' }}>
-                <div style={{ flex: 1 }}><label style={{fontSize: '12px', color: 'var(--text-muted)'}}>Start</label><input type="datetime-local" required value={newSessionStart} onChange={e => setNewSessionStart(e.target.value)} className="input-field" style={{ width: '100%', colorScheme: 'dark' }} /></div>
-                <div style={{ flex: 1 }}><label style={{fontSize: '12px', color: 'var(--text-muted)'}}>End</label><input type="datetime-local" required value={newSessionEnd} onChange={e => setNewSessionEnd(e.target.value)} className="input-field" style={{ width: '100%', colorScheme: 'dark' }} /></div>
-              </div>
-              <input type="url" placeholder="Meet link (optional)" value={newSessionLink} onChange={e => setNewSessionLink(e.target.value)} className="input-field" />
-              <button type="submit" className="primary-btn" style={{ alignSelf: 'flex-start' }}>Create Session</button>
-            </form>
-          )}
+          <div className="glass-card" style={{ padding: '32px', marginBottom: '32px' }}>
+            {editingSession ? (
+              <form onSubmit={handleEditSessionSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                <h3 style={{ margin: 0, fontSize: '18px', fontFamily: 'var(--font-grotesk)', fontWeight: 600 }}>Edit Session</h3>
+                <input type="text" required placeholder="Session title" value={editSessionTitle} onChange={e => setEditSessionTitle(e.target.value)} style={{ width: '100%', padding: '12px 16px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid var(--border-subtle)', borderRadius: '8px', color: 'var(--text-primary)', outline: 'none', fontSize: '14px' }} />
+                <div style={{ display: 'flex', gap: '16px' }}>
+                  <div style={{ flex: 1 }}><label style={{fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px', display: 'block'}}>Start</label><input type="datetime-local" required value={editSessionStart} onChange={e => setEditSessionStart(e.target.value)} style={{ width: '100%', padding: '12px 16px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid var(--border-subtle)', borderRadius: '8px', color: 'var(--text-primary)', outline: 'none', colorScheme: 'dark' }} /></div>
+                  <div style={{ flex: 1 }}><label style={{fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px', display: 'block'}}>End</label><input type="datetime-local" required value={editSessionEnd} onChange={e => setEditSessionEnd(e.target.value)} style={{ width: '100%', padding: '12px 16px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid var(--border-subtle)', borderRadius: '8px', color: 'var(--text-primary)', outline: 'none', colorScheme: 'dark' }} /></div>
+                </div>
+                <input type="url" placeholder="Meet link (optional)" value={editSessionLink} onChange={e => setEditSessionLink(e.target.value)} style={{ width: '100%', padding: '12px 16px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid var(--border-subtle)', borderRadius: '8px', color: 'var(--text-primary)', outline: 'none', fontSize: '14px' }} />
+                <div style={{ display: 'flex', gap: '12px', marginTop: '8px' }}>
+                  <button type="submit" style={{ background: 'var(--accent)', color: '#000', border: 'none', padding: '10px 24px', borderRadius: '8px', fontWeight: 600, cursor: 'pointer' }}>Save Changes</button>
+                  <button type="button" onClick={() => setEditingSession(null)} style={{ background: 'transparent', color: 'var(--text-secondary)', border: '1px solid var(--border)', padding: '10px 24px', borderRadius: '8px', cursor: 'pointer' }}>Cancel</button>
+                </div>
+              </form>
+            ) : (
+              <form onSubmit={handleAddSession} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                <h3 style={{ margin: 0, fontSize: '18px', fontFamily: 'var(--font-grotesk)', fontWeight: 600 }}>Create New Session</h3>
+                <input type="text" required placeholder="Session title" value={newSessionTitle} onChange={e => setNewSessionTitle(e.target.value)} style={{ width: '100%', padding: '12px 16px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid var(--border-subtle)', borderRadius: '8px', color: 'var(--text-primary)', outline: 'none', fontSize: '14px' }} />
+                <div style={{ display: 'flex', gap: '16px' }}>
+                  <div style={{ flex: 1 }}><label style={{fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px', display: 'block'}}>Start Time</label><input type="datetime-local" required value={newSessionStart} onChange={e => setNewSessionStart(e.target.value)} style={{ width: '100%', padding: '12px 16px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid var(--border-subtle)', borderRadius: '8px', color: 'var(--text-primary)', outline: 'none', colorScheme: 'dark' }} /></div>
+                  <div style={{ flex: 1 }}><label style={{fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px', display: 'block'}}>End Time</label><input type="datetime-local" required value={newSessionEnd} onChange={e => setNewSessionEnd(e.target.value)} style={{ width: '100%', padding: '12px 16px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid var(--border-subtle)', borderRadius: '8px', color: 'var(--text-primary)', outline: 'none', colorScheme: 'dark' }} /></div>
+                </div>
+                <input type="url" placeholder="Meet link (optional)" value={newSessionLink} onChange={e => setNewSessionLink(e.target.value)} style={{ width: '100%', padding: '12px 16px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid var(--border-subtle)', borderRadius: '8px', color: 'var(--text-primary)', outline: 'none', fontSize: '14px' }} />
+                <button type="submit" style={{ alignSelf: 'flex-start', background: 'var(--text-primary)', color: '#000', border: 'none', padding: '10px 24px', borderRadius: '8px', fontWeight: 600, cursor: 'pointer', marginTop: '8px' }}>+ Schedule Session</button>
+              </form>
+            )}
+          </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '16px' }}>
             {sessions.map(s => {
               const count = getAttendanceCountForSession(s.id);
               return (
-                <div key={s.id} className="session-card" style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                      <h3 style={{ margin: '0 0 4px 0', fontSize: '18px', fontWeight: 500 }}>{s.title}</h3>
-                      <div style={{ display: 'flex', gap: '8px' }}>
-                        <button onClick={() => {
-                          setEditingSession(s);
-                          setEditSessionTitle(s.title);
-                          setEditSessionStart(formatToInputDt(s.lecture_start));
-                          setEditSessionEnd(formatToInputDt(s.lecture_end));
-                          setEditSessionLink(s.meetLink || '');
-                        }} style={{ background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer', fontSize: '13px' }}>Edit</button>
-                        
-                        <button 
-                          onClick={() => handleRemoveSession(s.id)} 
-                          disabled={count > 0}
-                          title={count > 0 ? 'Cannot delete session with attendance' : 'Delete Session'}
-                          style={{ background: 'none', border: 'none', color: count > 0 ? 'var(--text-muted)' : 'var(--danger)', cursor: count > 0 ? 'not-allowed' : 'pointer', fontSize: '13px' }}>
-                          Delete
-                        </button>
-                      </div>
+                <div key={s.id} className="glass-card" style={{ padding: '24px', display: 'flex', flexDirection: 'column' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
+                    <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 600, fontFamily: 'var(--font-grotesk)' }}>{s.title}</h3>
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                      <button onClick={() => {
+                        setEditingSession(s);
+                        setEditSessionTitle(s.title);
+                        setEditSessionStart(formatToInputDt(s.lecture_start));
+                        setEditSessionEnd(formatToInputDt(s.lecture_end));
+                        setEditSessionLink(s.meetLink || '');
+                      }} style={{ background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Edit</button>
+                      
+                      <button 
+                        onClick={() => handleRemoveSession(s.id)} 
+                        disabled={count > 0}
+                        title={count > 0 ? 'Cannot delete session with attendance' : 'Delete Session'}
+                        style={{ background: 'none', border: 'none', color: count > 0 ? 'var(--text-muted)' : '#ef4444', cursor: count > 0 ? 'not-allowed' : 'pointer', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        Delete
+                      </button>
                     </div>
-                    <p className="mono" style={{ margin: '0 0 8px 0', fontSize: '13px', color: 'var(--text-muted)' }}>{formatDt(s.lecture_start)} - {formatDt(s.lecture_end)}</p>
-                    {s.meetLink && <a href={s.meetLink} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)', fontSize: '12px', textDecoration: 'none' }}>🔗 {s.meetLink}</a>}
                   </div>
-                  <div style={{ marginTop: 'auto', paddingTop: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span className="mono" style={{ fontSize: '13px', color: 'var(--accent)' }}>{count} / {totalStudents} Present</span>
-                    <button onClick={() => setModalSessionId(s.id)} style={{ background: 'none', border: 'none', color: 'var(--text-primary)', fontSize: '13px', cursor: 'pointer', fontWeight: 500 }}>Manage Attendance →</button>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px', lineHeight: 1.6 }}>
+                    <div>Start: {formatDt(s.lecture_start)}</div>
+                    <div>End: {formatDt(s.lecture_end)}</div>
+                  </div>
+                  {s.meetLink && <a href={s.meetLink} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)', fontSize: '13px', textDecoration: 'none', display: 'inline-block', marginBottom: '16px', background: 'rgba(255,255,255,0.05)', padding: '6px 12px', borderRadius: '4px' }}>🔗 View Meet Link</a>}
+                  
+                  <div style={{ marginTop: 'auto', paddingTop: '20px', borderTop: '1px solid var(--border-subtle)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--text-primary)' }}><span style={{color: 'var(--accent)'}}>{count}</span> / {totalStudents} Present</span>
+                    <button onClick={() => setModalSessionId(s.id)} style={{ background: 'var(--text-primary)', color: '#000', border: 'none', padding: '6px 16px', borderRadius: '6px', fontSize: '13px', cursor: 'pointer', fontWeight: 600 }}>Manage →</button>
                   </div>
                 </div>
               );
@@ -274,41 +293,44 @@ export default function AdminDashboard() {
         </div>
 
         {/* STUDENT MANAGEMENT */}
-        <div className="panel">
-          <h2 className="panel-heading">Student Management</h2>
-          <form onSubmit={handleAddStudent} style={{ display: 'flex', gap: '12px', marginBottom: '24px', maxWidth: '400px' }}>
-            <input type="text" placeholder="Student Name" value={newStudentName} onChange={e => setNewStudentName(e.target.value)} className="input-field" />
-            <button type="submit" className="primary-btn">Add</button>
-          </form>
+        <div>
+          <h2 style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '24px' }}>Student Directory</h2>
+          
+          <div className="glass-card" style={{ padding: '32px' }}>
+            <form onSubmit={handleAddStudent} style={{ display: 'flex', gap: '12px', marginBottom: '32px' }}>
+              <input type="text" placeholder="Add new student name..." value={newStudentName} onChange={e => setNewStudentName(e.target.value)} style={{ flex: 1, maxWidth: '400px', padding: '10px 16px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid var(--border-subtle)', borderRadius: '8px', color: 'var(--text-primary)', outline: 'none', fontSize: '14px' }} />
+              <button type="submit" style={{ background: 'var(--text-primary)', color: '#000', border: 'none', padding: '0 24px', borderRadius: '8px', fontWeight: 600, cursor: 'pointer' }}>Add Student</button>
+            </form>
 
-          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-            <thead>
-              <tr>
-                <th style={{ paddingBottom: '12px', borderBottom: '1px solid var(--border)', fontSize: '12px', color: 'var(--text-muted)' }}>Name</th>
-                <th style={{ paddingBottom: '12px', borderBottom: '1px solid var(--border)', fontSize: '12px', color: 'var(--text-muted)', textAlign: 'right' }}>Current Score</th>
-                <th style={{ paddingBottom: '12px', borderBottom: '1px solid var(--border)', fontSize: '12px', color: 'var(--text-muted)', textAlign: 'center' }}>Manual Points</th>
-                <th style={{ paddingBottom: '12px', borderBottom: '1px solid var(--border)', fontSize: '12px', color: 'var(--text-muted)', textAlign: 'right' }}>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {sortedStudents.map(s => (
-                <tr key={s.id} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                  <td style={{ padding: '12px 0', color: 'var(--text-primary)' }}>{s.name}</td>
-                  <td className="mono" style={{ padding: '12px 0', textAlign: 'right', color: 'var(--accent)' }}>{s.score}</td>
-                  <td style={{ padding: '12px 0', textAlign: 'center' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                      <button onClick={() => handleUpdatePoints(s.id, -1)} style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border)', color: 'var(--text-primary)', width: '24px', height: '24px', borderRadius: '4px', cursor: 'pointer' }}>-</button>
-                      <span className="mono" style={{ width: '24px' }}>{s.manualPoints}</span>
-                      <button onClick={() => handleUpdatePoints(s.id, 1)} style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border)', color: 'var(--text-primary)', width: '24px', height: '24px', borderRadius: '4px', cursor: 'pointer' }}>+</button>
-                    </div>
-                  </td>
-                  <td style={{ padding: '12px 0', textAlign: 'right' }}>
-                    <button onClick={() => handleRemoveStudent(s.id)} className="danger-text-btn">Remove</button>
-                  </td>
+            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+              <thead>
+                <tr>
+                  <th style={{ paddingBottom: '16px', borderBottom: '1px solid var(--border)', fontSize: '12px', color: 'var(--text-muted)', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Name</th>
+                  <th style={{ paddingBottom: '16px', borderBottom: '1px solid var(--border)', fontSize: '12px', color: 'var(--text-muted)', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em', textAlign: 'center' }}>Score</th>
+                  <th style={{ paddingBottom: '16px', borderBottom: '1px solid var(--border)', fontSize: '12px', color: 'var(--text-muted)', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em', textAlign: 'center' }}>Points Modifier</th>
+                  <th style={{ paddingBottom: '16px', borderBottom: '1px solid var(--border)', fontSize: '12px', color: 'var(--text-muted)', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em', textAlign: 'right' }}>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {sortedStudents.map(s => (
+                  <tr key={s.id} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+                    <td style={{ padding: '16px 0', color: 'var(--text-primary)', fontSize: '14px', fontWeight: 500 }}>{s.name}</td>
+                    <td style={{ padding: '16px 0', textAlign: 'center', fontFamily: 'var(--font-mono)', color: 'var(--accent)' }}>{s.score}</td>
+                    <td style={{ padding: '16px 0', textAlign: 'center' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
+                        <button onClick={() => handleUpdatePoints(s.id, -1)} style={{ background: 'rgba(255,255,255,0.05)', border: 'none', color: 'var(--text-primary)', width: '28px', height: '28px', borderRadius: '6px', cursor: 'pointer', transition: 'background 0.2s' }} onMouseOver={e=>e.currentTarget.style.background='rgba(255,255,255,0.1)'} onMouseOut={e=>e.currentTarget.style.background='rgba(255,255,255,0.05)'}>-</button>
+                        <span style={{ fontFamily: 'var(--font-mono)', width: '24px', fontSize: '14px' }}>{s.manualPoints}</span>
+                        <button onClick={() => handleUpdatePoints(s.id, 1)} style={{ background: 'rgba(255,255,255,0.05)', border: 'none', color: 'var(--text-primary)', width: '28px', height: '28px', borderRadius: '6px', cursor: 'pointer', transition: 'background 0.2s' }} onMouseOver={e=>e.currentTarget.style.background='rgba(255,255,255,0.1)'} onMouseOut={e=>e.currentTarget.style.background='rgba(255,255,255,0.05)'}>+</button>
+                      </div>
+                    </td>
+                    <td style={{ padding: '16px 0', textAlign: 'right' }}>
+                      <button onClick={() => handleRemoveStudent(s.id)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '13px', fontWeight: 500 }}>Remove</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 

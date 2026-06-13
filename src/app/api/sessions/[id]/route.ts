@@ -42,18 +42,7 @@ export async function PATCH(
       return NextResponse.json({ error: 'lecture_start must be before lecture_end' }, { status: 400 });
     }
 
-    // Check overlaps - only one session active globally
-    const sessions = await getSessions();
-    const overlap = sessions.some(s => {
-      if (s.id === params.id) return false;
-      const sStart = new Date(s.lecture_start);
-      const sEnd = new Date(s.lecture_end);
-      return (start < sEnd && end > sStart); // overlap condition
-    });
 
-    if (overlap) {
-      return NextResponse.json({ error: 'Session overlaps with an existing session' }, { status: 400 });
-    }
 
     let safeLink = '';
     if (meetLink && typeof meetLink === 'string' && meetLink.trim()) {
@@ -67,7 +56,8 @@ export async function PATCH(
 
     const session = await updateSession(params.id, title.trim(), lecture_start, lecture_end, safeLink);
     return NextResponse.json(session, { status: 200 });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Failed to update session' }, { status: 500 });
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : 'Failed to update session';
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 type RankedStudent = {
   id: string;
@@ -67,7 +68,7 @@ export default function PublicClientView({ rankedStudents, activeSession, upcomi
     <nav style={{ position: 'sticky', top: 0, zIndex: 100, background: 'rgba(5, 7, 10, 0.7)', backdropFilter: 'blur(20px)', borderBottom: '1px solid var(--border-subtle)', padding: '0 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '72px' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '48px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <img src="/logo.png" alt="Logo" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />
+          <Image src="/logo.png" alt="Logo" width={32} height={32} style={{ objectFit: 'contain' }} />
           <div style={{ fontFamily: 'var(--font-grotesk)', fontWeight: 800, fontSize: '20px', color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>ARCHON</div>
         </div>
         
@@ -78,7 +79,7 @@ export default function PublicClientView({ rankedStudents, activeSession, upcomi
           ].map(tab => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
+              onClick={() => setActiveTab(tab.id as 'leaderboard' | 'sessions')}
               style={{
                 background: activeTab === tab.id ? 'rgba(255,255,255,0.06)' : 'transparent',
                 color: activeTab === tab.id ? '#F8FAFC' : '#94A3B8',

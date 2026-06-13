@@ -57,59 +57,64 @@ export function SessionModal({ session, students, initialAttendance, onClose, on
     setSaving(true);
     try {
       await onSave(Array.from(presentStudents));
-    } catch {
-      alert("Failed to save attendance. Please try again.");
+    } catch (err) {
+      alert((err instanceof Error ? err.message : "Failed to save attendance. Please try again."));
     } finally {
       setSaving(false);
     }
   };
 
   return (
-    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)', zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={onClose}>
-      <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: '10px', width: '480px', maxHeight: '80vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }} onClick={e => e.stopPropagation()}>
-        <div style={{ padding: '20px 24px', borderBottom: '1px solid var(--border)' }}>
-          <h2 style={{ fontSize: '16px', fontWeight: 500, margin: '0 0 4px 0' }}>{session.title}</h2>
-          <p className="mono" style={{ fontSize: '12px', color: 'var(--text-muted)', margin: 0 }}>{formatDt(session.lecture_start)} - {formatDt(session.lecture_end)}</p>
+    <div style={{ position: 'fixed', inset: 0, background: 'rgba(5, 7, 10, 0.8)', backdropFilter: 'blur(12px)', zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={onClose}>
+      <div className="glass-card" style={{ width: '500px', maxHeight: '85vh', display: 'flex', flexDirection: 'column' }} onClick={e => e.stopPropagation()}>
+        <div style={{ padding: '24px 32px', borderBottom: '1px solid var(--border-subtle)' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>
+            {formatDt(session.lecture_start)} - {formatDt(session.lecture_end)}
+          </div>
+          <h2 style={{ fontSize: '20px', fontWeight: 600, fontFamily: 'var(--font-grotesk)', margin: 0, color: 'var(--text-primary)' }}>{session.title}</h2>
         </div>
         
-        <input 
-          type="text" 
-          placeholder="Search students..." 
-          className="input-field" 
-          style={{ margin: '16px 24px', width: 'calc(100% - 48px)' }} 
-          value={search} 
-          onChange={e => setSearch(e.target.value)} 
-        />
+        <div style={{ padding: '20px 32px 0 32px' }}>
+          <input 
+            type="text" 
+            placeholder="Search students..." 
+            style={{ width: '100%', padding: '12px 16px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid var(--border-subtle)', borderRadius: '8px', color: 'var(--text-primary)', outline: 'none', fontSize: '14px', marginBottom: '16px' }} 
+            value={search} 
+            onChange={e => setSearch(e.target.value)} 
+          />
+        </div>
 
         {selectedStudents.size > 0 && (
-          <div style={{ padding: '8px 24px', background: 'var(--bg-elevated)', borderBottom: '1px solid var(--border)', display: 'flex', gap: '8px' }}>
-            <button className="primary-btn small" style={{ width: 'auto' }} onClick={() => handleBulkAction(true)}>Mark Present</button>
-            <button style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border)', color: 'var(--text-secondary)', borderRadius: '6px', padding: '5px 12px', fontSize: '13px', cursor: 'pointer' }} onClick={() => handleBulkAction(false)}>Mark Absent</button>
+          <div style={{ padding: '12px 32px', background: 'rgba(45, 212, 191, 0.05)', borderBottom: '1px solid var(--border-subtle)', display: 'flex', gap: '12px' }}>
+            <button style={{ background: 'var(--text-primary)', color: '#000', border: 'none', padding: '6px 16px', borderRadius: '6px', fontSize: '13px', cursor: 'pointer', fontWeight: 600 }} onClick={() => handleBulkAction(true)}>Mark Present</button>
+            <button style={{ background: 'rgba(255, 255, 255, 0.05)', border: 'none', color: 'var(--text-primary)', borderRadius: '6px', padding: '6px 16px', fontSize: '13px', cursor: 'pointer' }} onClick={() => handleBulkAction(false)}>Mark Absent</button>
           </div>
         )}
 
-        <div style={{ overflowY: 'auto', flex: 1, padding: '0 24px' }}>
+        <div style={{ overflowY: 'auto', flex: 1, padding: '0 32px' }}>
            {visibleStudents.length === 0 ? (
-             <p style={{ textAlign: 'center', padding: '20px 0', color: 'var(--text-muted)' }}>No students found.</p>
+             <p style={{ textAlign: 'center', padding: '40px 0', color: 'var(--text-muted)' }}>No students found.</p>
            ) : (
              <>
-               <div style={{ display: 'flex', gap: '12px', padding: '10px 0', borderBottom: '1px solid var(--border-subtle)' }}>
-                 <input type="checkbox" checked={visibleStudents.length > 0 && selectedStudents.size === visibleStudents.length} onChange={e => handleSelectAll(e.target.checked)} />
-                 <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Select All</span>
+               <div style={{ display: 'flex', gap: '16px', padding: '16px 0', borderBottom: '1px solid var(--border-subtle)', alignItems: 'center' }}>
+                 <input type="checkbox" checked={visibleStudents.length > 0 && selectedStudents.size === visibleStudents.length} onChange={e => handleSelectAll(e.target.checked)} style={{ width: '16px', height: '16px', cursor: 'pointer', accentColor: 'var(--accent)' }} />
+                 <span style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>SELECT ALL</span>
                </div>
                {visibleStudents.map(s => {
                   const isPresent = presentStudents.has(s.id);
                   return (
-                     <div key={s.id} className="modal-row" style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 0', borderBottom: '1px solid var(--border-subtle)' }}>
+                     <div key={s.id} style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '16px 0', borderBottom: '1px solid var(--border-subtle)', transition: 'background 0.2s' }}>
                         <input type="checkbox" checked={selectedStudents.has(s.id)} onChange={e => {
                            setSelectedStudents(prev => {
                               const next = new Set(prev);
                               if (e.target.checked) next.add(s.id); else next.delete(s.id);
                               return next;
                            })
-                        }} />
-                        <span style={{ color: 'var(--text-primary)', fontSize: '14px', flex: 1 }}>{s.name}</span>
-                        <input type="checkbox" checked={isPresent} onChange={e => toggleStudent(s.id, e.target.checked)} />
+                        }} style={{ width: '16px', height: '16px', cursor: 'pointer', accentColor: 'var(--accent)' }} />
+                        <span style={{ color: isPresent ? 'var(--text-primary)' : 'var(--text-muted)', fontSize: '15px', flex: 1, fontWeight: isPresent ? 500 : 400 }}>{s.name}</span>
+                        <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                          <input type="checkbox" checked={isPresent} onChange={e => toggleStudent(s.id, e.target.checked)} style={{ width: '18px', height: '18px', accentColor: 'var(--accent)', cursor: 'pointer' }} />
+                        </label>
                      </div>
                   )
                })}
@@ -117,9 +122,9 @@ export function SessionModal({ session, students, initialAttendance, onClose, on
            )}
         </div>
         
-        <div style={{ padding: '16px 24px', borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
-           <button onClick={onClose} disabled={saving} className="text-btn secondary">Cancel</button>
-           <button onClick={handleSave} disabled={saving} className="primary-btn" style={{ width: 'auto' }}>
+        <div style={{ padding: '24px 32px', borderTop: '1px solid var(--border-subtle)', display: 'flex', justifyContent: 'flex-end', gap: '16px', background: 'rgba(0,0,0,0.2)' }}>
+           <button onClick={onClose} disabled={saving} style={{ background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', fontSize: '14px' }}>Cancel</button>
+           <button onClick={handleSave} disabled={saving} style={{ background: 'var(--accent)', color: '#000', border: 'none', padding: '10px 24px', borderRadius: '8px', fontWeight: 600, cursor: 'pointer' }}>
              {saving ? 'Saving...' : 'Save Attendance'}
            </button>
         </div>

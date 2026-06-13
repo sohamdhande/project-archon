@@ -37,40 +37,47 @@ export default function LoginPage() {
   };
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: 'var(--bg-base)' }}>
-
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: 'var(--bg-base)', position: 'relative', overflow: 'hidden' }}>
       
-      <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: '10px', padding: '36px', width: '340px' }}>
-        <h1 style={{ fontSize: '20px', fontWeight: 600, marginBottom: '4px', margin: 0 }}>Admin Access</h1>
-        <p style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '28px', marginTop: 0 }}>Project Archon</p>
+      {/* Cinematic Overlays */}
+      <div className="aurora-glow" style={{ top: '-20%', left: '50%', transform: 'translateX(-50%)', width: '120vw', height: '80vh', opacity: 0.15 }} />
+      <div className="noise-overlay" />
+      <div className="grid-overlay" />
 
-        <form onSubmit={handleLogin}>
-          <div style={{ marginBottom: '16px' }}>
+      <div className="glass-card" style={{ padding: '40px', width: '380px', position: 'relative', zIndex: 10 }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--accent)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '8px', textAlign: 'center' }}>
+          NST-SDC
+        </div>
+        <h1 style={{ fontSize: '24px', fontWeight: 600, fontFamily: 'var(--font-grotesk)', marginBottom: '8px', margin: 0, textAlign: 'center', color: 'var(--text-primary)' }}>Admin Access</h1>
+        <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '32px', marginTop: 0, textAlign: 'center' }}>Project Archon</p>
+
+        <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <div>
             <input
               type="text"
               placeholder="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="input-field"
+              style={{ width: '100%', padding: '12px 16px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid var(--border-subtle)', borderRadius: '8px', color: 'var(--text-primary)', outline: 'none', fontSize: '14px' }}
               required
             />
           </div>
-          <div style={{ marginBottom: '16px' }}>
+          <div>
             <input
               type="password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="input-field"
+              style={{ width: '100%', padding: '12px 16px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid var(--border-subtle)', borderRadius: '8px', color: 'var(--text-primary)', outline: 'none', fontSize: '14px' }}
               required
             />
           </div>
 
-          <button type="submit" disabled={loading} className="primary-btn">
+          <button type="submit" disabled={loading} style={{ width: '100%', background: 'var(--accent)', color: '#000', border: 'none', padding: '12px 16px', borderRadius: '8px', fontWeight: 600, cursor: 'pointer', marginTop: '8px' }}>
             {loading ? 'Authenticating...' : 'Sign In'}
           </button>
 
-          {error && <p style={{ color: 'var(--danger)', fontSize: '13px', marginTop: '12px', marginBottom: 0 }}>{error}</p>}
+          {error && <p style={{ color: '#ef4444', fontSize: '13px', marginTop: '12px', marginBottom: 0, textAlign: 'center' }}>{error}</p>}
         </form>
       </div>
     </div>
