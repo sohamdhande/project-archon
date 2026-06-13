@@ -55,30 +55,3 @@ export async function removeSession(id: string) {
 export async function getAttendance() {
   return prisma.attendance.findMany()
 }
-
-export async function getAssignments() {
-  return prisma.assignment.findMany({ orderBy: { due_date: 'asc' } })
-}
-
-export async function addAssignment(title: string, description: string, due_date: string) {
-  return prisma.assignment.create({
-    data: { 
-      title, 
-      description, 
-      posted_at: new Date(), 
-      due_date: new Date(due_date),
-      status: 'ACTIVE'
-    }
-  })
-}
-
-export async function updateAssignment(id: string, title: string, description: string, due_date: string, status: string) {
-  return prisma.assignment.update({
-    where: { id },
-    data: { title, description, due_date: new Date(due_date), status }
-  })
-}
-
-export async function removeAssignment(id: string) {
-  return prisma.assignment.delete({ where: { id } })
-}

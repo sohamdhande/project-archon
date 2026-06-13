@@ -7,7 +7,6 @@ import { SessionModal } from '@/components/admin/SessionModal';
 type Student = { id: string; name: string; manualPoints: number; score?: number };
 type Session = { id: string; title: string; lecture_start: string; lecture_end: string; meetLink?: string };
 type AttendanceRecord = { studentId: string; sessionId: string };
-type Assignment = { id: string; title: string; description: string; posted_at: string; due_date: string; status: string; };
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -15,7 +14,6 @@ export default function AdminDashboard() {
   const [students, setStudents] = useState<Student[]>([]);
   const [sessions, setSessions] = useState<Session[]>([]);
   const [attendance, setAttendance] = useState<AttendanceRecord[]>([]);
-  const [assignments, setAssignments] = useState<Assignment[]>([]);
 
   const [modalSessionId, setModalSessionId] = useState<string | null>(null);
 
@@ -33,14 +31,6 @@ export default function AdminDashboard() {
   const [editSessionEnd, setEditSessionEnd] = useState('');
   const [editSessionLink, setEditSessionLink] = useState('');
 
-  const [newAssignmentTitle, setNewAssignmentTitle] = useState('');
-  const [newAssignmentDesc, setNewAssignmentDesc] = useState('');
-  const [newAssignmentDue, setNewAssignmentDue] = useState('');
-
-  const [editingAssignment, setEditingAssignment] = useState<Assignment | null>(null);
-  const [editAssignmentTitle, setEditAssignmentTitle] = useState('');
-  const [editAssignmentDesc, setEditAssignmentDesc] = useState('');
-  const [editAssignmentDue, setEditAssignmentDue] = useState('');
 
   useEffect(() => {
     fetchAll();
@@ -48,16 +38,14 @@ export default function AdminDashboard() {
 
   const fetchAll = async () => {
     try {
-      const [sRes, seRes, aRes, assRes] = await Promise.all([
+      const [sRes, seRes, aRes] = await Promise.all([
         fetch('/api/students'),
         fetch('/api/sessions'),
-        fetch('/api/attendance'),
-        fetch('/api/assignments'),
+        fetch('/api/attendance')
       ]);
       setStudents(await sRes.json());
       setSessions(await seRes.json());
       setAttendance(await aRes.json());
-      setAssignments(await assRes.json());
     } catch (e) {
       console.error("Failed to fetch data", e);
     }
@@ -177,77 +165,6 @@ export default function AdminDashboard() {
     return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
   };
 
-  // Assignments
-  const handleAddAssignment = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newAssignmentTitle.trim() || !newAssignmentDesc.trim() || !newAssignmentDue) return;
-    
-    const res = await fetch('/api/assignments', { 
-      method: 'POST', 
-      headers: {'Content-Type': 'application/json'}, 
-      body: JSON.stringify({ 
-        title: newAssignmentTitle.trim(), 
-        description: newAssignmentDesc.trim(),
-        due_date: new Date(newAssignmentDue).toISOString() 
-      }) 
-    });
-
-    if (res.ok) {
-      setNewAssignmentTitle('');
-      setNewAssignmentDesc('');
-      setNewAssignmentDue('');
-      fetchAll();
-    } else {
-      const data = await res.json();
-      alert(data.error);
-    }
-  };
-
-  const handleEditAssignmentSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!editingAssignment || !editAssignmentTitle.trim() || !editAssignmentDesc.trim() || !editAssignmentDue) return;
-    
-    const res = await fetch(`/api/assignments/${editingAssignment.id}`, { 
-      method: 'PATCH', 
-      headers: {'Content-Type': 'application/json'}, 
-      body: JSON.stringify({ 
-        title: editAssignmentTitle.trim(), 
-        description: editAssignmentDesc.trim(),
-        due_date: new Date(editAssignmentDue).toISOString(),
-        status: editingAssignment.status 
-      }) 
-    });
-
-    if (res.ok) {
-      setEditingAssignment(null);
-      fetchAll();
-    } else {
-      const data = await res.json();
-      alert(data.error);
-    }
-  };
-
-  const handleArchiveAssignment = async (assignment: Assignment, status: string) => {
-    const res = await fetch(`/api/assignments/${assignment.id}`, { 
-      method: 'PATCH', 
-      headers: {'Content-Type': 'application/json'}, 
-      body: JSON.stringify({ 
-        title: assignment.title, 
-        description: assignment.description,
-        due_date: assignment.due_date,
-        status
-      }) 
-    });
-    if (res.ok) fetchAll();
-  };
-
-  const handleRemoveAssignment = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this assignment?')) return;
-    await fetch(`/api/assignments/${id}`, { method: 'DELETE' });
-    fetchAll();
-  };
-
-
   const formatDt = (iso: string) => {
     try { return new Date(iso).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }); } catch { return iso; }
   };
@@ -353,70 +270,6 @@ export default function AdminDashboard() {
                 </div>
               );
             })}
-          </div>
-        </div>
-
-        {/* ASSIGNMENTS */}
-        <div className="panel">
-          <h2 className="panel-heading">Assignments</h2>
-
-          {editingAssignment ? (
-            <form onSubmit={handleEditAssignmentSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '24px', background: 'var(--bg-elevated)', padding: '16px', borderRadius: '8px' }}>
-              <h3 style={{ margin: 0, fontSize: '16px' }}>Edit Assignment</h3>
-              <input type="text" required placeholder="Title" value={editAssignmentTitle} onChange={e => setEditAssignmentTitle(e.target.value)} className="input-field" />
-              <textarea required placeholder="Description" value={editAssignmentDesc} onChange={e => setEditAssignmentDesc(e.target.value)} className="input-field" style={{ minHeight: '80px', resize: 'vertical' }} />
-              <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                <label style={{fontSize: '12px', color: 'var(--text-muted)'}}>Due Date</label>
-                <input type="datetime-local" required value={editAssignmentDue} onChange={e => setEditAssignmentDue(e.target.value)} className="input-field" style={{ colorScheme: 'dark' }} />
-              </div>
-              <div style={{ display: 'flex', gap: '12px', marginTop: '8px' }}>
-                <button type="submit" className="primary-btn">Save</button>
-                <button type="button" onClick={() => setEditingAssignment(null)} className="text-btn">Cancel</button>
-              </div>
-            </form>
-          ) : (
-            <form onSubmit={handleAddAssignment} style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '24px' }}>
-              <input type="text" required placeholder="Assignment Title" value={newAssignmentTitle} onChange={e => setNewAssignmentTitle(e.target.value)} className="input-field" />
-              <textarea required placeholder="Assignment Description" value={newAssignmentDesc} onChange={e => setNewAssignmentDesc(e.target.value)} className="input-field" style={{ minHeight: '80px', resize: 'vertical' }} />
-              <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                <label style={{fontSize: '12px', color: 'var(--text-muted)'}}>Due Date</label>
-                <input type="datetime-local" required value={newAssignmentDue} onChange={e => setNewAssignmentDue(e.target.value)} className="input-field" style={{ colorScheme: 'dark' }} />
-                <button type="submit" className="primary-btn" style={{ marginLeft: 'auto' }}>Create Assignment</button>
-              </div>
-            </form>
-          )}
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {assignments.map(a => (
-              <div key={a.id} style={{ padding: '16px', border: '1px solid var(--border)', borderRadius: '8px', background: 'var(--bg-surface)' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                  <h3 style={{ margin: 0, fontSize: '16px' }}>{a.title}</h3>
-                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                    <span style={{ fontSize: '11px', padding: '2px 6px', borderRadius: '4px', background: a.status === 'ACTIVE' ? 'var(--accent)' : 'var(--bg-elevated)', color: a.status === 'ACTIVE' ? '#000' : 'var(--text-muted)' }}>
-                      {a.status}
-                    </span>
-                    <button onClick={() => {
-                      setEditingAssignment(a);
-                      setEditAssignmentTitle(a.title);
-                      setEditAssignmentDesc(a.description);
-                      setEditAssignmentDue(formatToInputDt(a.due_date));
-                    }} style={{ background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer', fontSize: '12px' }}>Edit</button>
-                    {a.status === 'ACTIVE' ? (
-                      <button onClick={() => handleArchiveAssignment(a, 'ARCHIVED')} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', fontSize: '12px' }}>Archive</button>
-                    ) : (
-                      <button onClick={() => handleArchiveAssignment(a, 'ACTIVE')} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', fontSize: '12px' }}>Unarchive</button>
-                    )}
-                    <button onClick={() => handleRemoveAssignment(a.id)} style={{ background: 'none', border: 'none', color: 'var(--danger)', cursor: 'pointer', fontSize: '12px' }}>Delete</button>
-                  </div>
-                </div>
-                <p style={{ margin: '0 0 12px 0', fontSize: '14px', color: 'var(--text-secondary)', whiteSpace: 'pre-wrap' }}>{a.description}</p>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: 'var(--text-muted)' }}>
-                  <span>Posted: {formatDt(a.posted_at)}</span>
-                  <span style={{ color: new Date(a.due_date) < new Date() && a.status === 'ACTIVE' ? 'var(--danger)' : 'inherit' }}>Due: {formatDt(a.due_date)}</span>
-                </div>
-              </div>
-            ))}
-            {assignments.length === 0 && <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>No assignments found.</p>}
           </div>
         </div>
 

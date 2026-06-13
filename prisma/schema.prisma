@@ -33,11 +33,3 @@ model Attendance {
   @@index([sessionId])
 }
 
-model Assignment {
-  id          String   @id @default(uuid())
-  title       String
-  description String
-  posted_at   DateTime
-  due_date    DateTime
-  status      String   @default("ACTIVE") // ACTIVE or ARCHIVED
-}

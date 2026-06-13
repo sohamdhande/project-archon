@@ -6,14 +6,10 @@ export const revalidate = 30;
 export default async function PublicPage() {
   const now = new Date();
 
-  const [students, sessions, attendance, assignments] = await Promise.all([
+  const [students, sessions, attendance] = await Promise.all([
     prisma.student.findMany(),
     prisma.session.findMany({ orderBy: { lecture_start: 'asc' } }),
-    prisma.attendance.findMany(),
-    prisma.assignment.findMany({
-      where: { status: 'ACTIVE', due_date: { gt: now } },
-      orderBy: { due_date: 'asc' }
-    })
+    prisma.attendance.findMany()
   ]);
 
   const getAttendanceCount = (studentId: string) =>
@@ -26,6 +22,7 @@ export default async function PublicPage() {
     .map((s) => ({
       id: s.id,
       name: s.name,
+      manualPoints: s.manualPoints,
       score: getScore(s),
       attendanceCount: getAttendanceCount(s.id)
     }))
@@ -59,7 +56,6 @@ export default async function PublicPage() {
       rankedStudents={rankedStudents}
       activeSession={activeSession}
       upcomingSession={upcomingSession}
-      assignments={assignments}
       totalSessions={sessions.length}
     />
   );
