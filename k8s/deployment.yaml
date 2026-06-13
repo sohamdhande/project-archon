@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: archon-deployment
+  namespace: archon
+  labels:
+    app: archon
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: archon
+  template:
+    metadata:
+      labels:
+        app: archon
+    spec:
+      containers:
+        - name: archon
+          image: 192.168.136.145:30500/archon:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: archon-secret
+                  key: DATABASE_URL
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: archon-secret
+                  key: JWT_SECRET
+            - name: ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: archon-secret
+                  key: ADMIN_USER
+            - name: ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: archon-secret
+                  key: ADMIN_PASSWORD
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
