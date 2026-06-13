@@ -26,8 +26,8 @@ const config: Config = {
         "accent-glow": "var(--accent-glow)",
       },
       fontFamily: {
-        sans: ["var(--font-geist-sans)", "sans-serif"],
-        mono: ["var(--font-geist-mono)", "monospace"],
+        sans: ["var(--font-quicksand)", "sans-serif"],
+        mono: ["var(--font-space-mono)", "monospace"],
       },
     },
   },
