@@ -36,17 +36,16 @@ export default async function PublicPage() {
     return { ...s, rank: currentRank };
   });
 
-  // Find active or nearest upcoming session
+  // Find active and all upcoming sessions
   let activeSession = null;
-  let upcomingSession = null;
+  const upcomingSessions: typeof sessions = [];
 
   for (const s of sessions) {
     if (s.lecture_end > now) {
       if (s.lecture_start <= now) {
         activeSession = s;
-        break;
-      } else if (!upcomingSession && s.lecture_start.getTime() <= now.getTime() + 5 * 60 * 60 * 1000) {
-        upcomingSession = s;
+      } else {
+        upcomingSessions.push(s);
       }
     }
   }
@@ -55,7 +54,7 @@ export default async function PublicPage() {
     <PublicClientView 
       rankedStudents={rankedStudents}
       activeSession={activeSession}
-      upcomingSession={upcomingSession}
+      upcomingSessions={upcomingSessions}
       totalSessions={sessions.length}
     />
   );

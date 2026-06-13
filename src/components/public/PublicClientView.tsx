@@ -23,11 +23,11 @@ type Session = {
 interface Props {
   rankedStudents: RankedStudent[];
   activeSession: Session | null;
-  upcomingSession: Session | null;
+  upcomingSessions: Session[];
   totalSessions: number;
 }
 
-export default function PublicClientView({ rankedStudents, activeSession, upcomingSession, totalSessions }: Props) {
+export default function PublicClientView({ rankedStudents, activeSession, upcomingSessions, totalSessions }: Props) {
   const [activeTab, setActiveTab] = useState<'leaderboard' | 'sessions'>('leaderboard');
   const [now, setNow] = useState(new Date());
   const [isMounted, setIsMounted] = useState(false);
@@ -40,9 +40,10 @@ export default function PublicClientView({ rankedStudents, activeSession, upcomi
 
   const formatTime = (d: Date) => new Date(d).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
 
+  // Only highlight the NEXT upcoming session in the top nav if it's within 5 hours
   let validUpcoming: Session | null = null;
-  if (upcomingSession && (new Date(upcomingSession.lecture_start).getTime() - now.getTime()) <= 5 * 60 * 60 * 1000) {
-    validUpcoming = upcomingSession;
+  if (upcomingSessions.length > 0 && (new Date(upcomingSessions[0].lecture_start).getTime() - now.getTime()) <= 5 * 60 * 60 * 1000) {
+    validUpcoming = upcomingSessions[0];
   }
 
   const avgAttendance = totalSessions > 0 && rankedStudents.length > 0
@@ -270,8 +271,8 @@ export default function PublicClientView({ rankedStudents, activeSession, upcomi
 
         {activeTab === 'sessions' && (
           <div className="animate-fade-up session-container">
-            {activeSession ? (
-              <div className="glass-card session-card" style={{ background: 'rgba(94, 234, 212, 0.05)', border: '1px solid rgba(94, 234, 212, 0.2)', position: 'relative', overflow: 'hidden' }}>
+            {activeSession && (
+              <div className="glass-card session-card" style={{ background: 'rgba(94, 234, 212, 0.05)', border: '1px solid rgba(94, 234, 212, 0.2)', position: 'relative', overflow: 'hidden', marginBottom: '24px' }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, width: '4px', height: '100%', background: 'var(--accent)' }} />
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
                   <div className="pulse-dot" style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--accent)' }} />
@@ -285,22 +286,38 @@ export default function PublicClientView({ rankedStudents, activeSession, upcomi
                   Attendance closes at {formatTime(activeSession.lecture_end)}
                 </div>
               </div>
-            ) : validUpcoming ? (
-              <div className="glass-card session-card">
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 600, color: 'var(--text-muted)', letterSpacing: '0.1em', marginBottom: '24px' }}>UPCOMING SESSION</div>
-                <h2 style={{ fontFamily: 'var(--font-grotesk)', fontSize: '32px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '16px' }}>{validUpcoming.title}</h2>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', color: 'var(--accent)', marginBottom: '16px', padding: '8px 16px', background: 'rgba(94,234,212,0.1)', display: 'inline-block', borderRadius: '8px' }}>
-                  Starts in {getTimerText(new Date(validUpcoming.lecture_start))}
-                </div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '16px', color: 'var(--text-primary)' }}>
-                  {formatTime(validUpcoming.lecture_start)} - {formatTime(validUpcoming.lecture_end)}
-                </div>
-              </div>
-            ) : (
-              <div style={{ textAlign: 'center', padding: '80px 0', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', fontSize: '14px' }}>
-                No active sessions.
-              </div>
             )}
+
+            {upcomingSessions.length > 0 ? (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                {upcomingSessions.map((session, index) => {
+                  const isNext = index === 0 && (!activeSession); // Highlight as next if it's the very first one and no live session
+                  
+                  return (
+                    <div key={session.id} className="glass-card session-card">
+                      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 600, color: 'var(--text-muted)', letterSpacing: '0.1em', marginBottom: '24px' }}>
+                        {isNext ? 'UPCOMING SESSION' : 'FUTURE SESSION'}
+                      </div>
+                      <h2 style={{ fontFamily: 'var(--font-grotesk)', fontSize: '32px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '16px' }}>{session.title}</h2>
+                      
+                      {isNext && (
+                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', color: 'var(--accent)', marginBottom: '16px', padding: '8px 16px', background: 'rgba(94,234,212,0.1)', display: 'inline-block', borderRadius: '8px' }}>
+                          Starts in {getTimerText(new Date(session.lecture_start))}
+                        </div>
+                      )}
+                      
+                      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '16px', color: 'var(--text-primary)' }}>
+                        {new Date(session.lecture_start).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} • {formatTime(session.lecture_start)} - {formatTime(session.lecture_end)}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (!activeSession && (
+              <div style={{ textAlign: 'center', padding: '80px 0', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', fontSize: '14px' }}>
+                No upcoming sessions scheduled.
+              </div>
+            ))}
           </div>
         )}
 
