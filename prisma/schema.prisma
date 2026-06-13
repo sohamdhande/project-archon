@@ -14,11 +14,12 @@ model Student {
 }
 
 model Session {
-  id         String       @id @default(uuid())
-  title      String
-  datetime   DateTime
-  meetLink   String
-  attendance Attendance[]
+  id            String       @id @default(uuid())
+  title         String
+  lecture_start DateTime
+  lecture_end   DateTime
+  meetLink      String
+  attendance    Attendance[]
 }
 
 model Attendance {
@@ -30,4 +31,13 @@ model Attendance {
 
   @@unique([studentId, sessionId])
   @@index([sessionId])
+}
+
+model Assignment {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  posted_at   DateTime
+  due_date    DateTime
+  status      String   @default("ACTIVE") // ACTIVE or ARCHIVED
 }

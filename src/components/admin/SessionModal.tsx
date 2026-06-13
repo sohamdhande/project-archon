@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 type Student = { id: string; name: string };
-type Session = { id: string; title: string; datetime: string };
+type Session = { id: string; title: string; lecture_start: string; lecture_end: string };
 
 interface SessionModalProps {
   session: Session;
@@ -69,7 +69,7 @@ export function SessionModal({ session, students, initialAttendance, onClose, on
       <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: '10px', width: '480px', maxHeight: '80vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }} onClick={e => e.stopPropagation()}>
         <div style={{ padding: '20px 24px', borderBottom: '1px solid var(--border)' }}>
           <h2 style={{ fontSize: '16px', fontWeight: 500, margin: '0 0 4px 0' }}>{session.title}</h2>
-          <p className="mono" style={{ fontSize: '12px', color: 'var(--text-muted)', margin: 0 }}>{formatDt(session.datetime)}</p>
+          <p className="mono" style={{ fontSize: '12px', color: 'var(--text-muted)', margin: 0 }}>{formatDt(session.lecture_start)} - {formatDt(session.lecture_end)}</p>
         </div>
         
         <input 
