@@ -46,10 +46,6 @@ export default function PublicClientView({ rankedStudents, activeSession, upcomi
     validUpcoming = upcomingSessions[0];
   }
 
-  const avgAttendance = totalSessions > 0 && rankedStudents.length > 0
-    ? Math.round((rankedStudents.reduce((acc, s) => acc + s.attendanceCount, 0) / (rankedStudents.length * totalSessions)) * 100)
-    : 0;
-
   const getInitials = (name: string) => {
     const parts = name.split(' ');
     if (parts.length > 1) return (parts[0][0] + parts[1][0]).toUpperCase();
@@ -150,12 +146,11 @@ export default function PublicClientView({ rankedStudents, activeSession, upcomi
               </p>
             </div>
 
-            {/* 4 Stat Cards */}
+            {/* Stat Cards */}
             <div className="stats-grid">
               {[
                 { label: 'Students', value: rankedStudents.length },
-                { label: 'Sessions', value: totalSessions },
-                { label: 'Average Attendance', value: `${avgAttendance}%` }
+                { label: 'Sessions', value: totalSessions }
               ].map((stat, i) => (
                 <div key={i} className="glass-card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   <div style={{ fontFamily: 'var(--font-sans)', fontSize: '14px', color: 'var(--text-muted)' }}>{stat.label}</div>
