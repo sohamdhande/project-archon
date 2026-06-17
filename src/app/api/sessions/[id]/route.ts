@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { removeSession, updateSession, getSessions, prisma } from '@/lib/db';
+import { removeSession, updateSession, prisma } from '@/lib/db';
 
 export async function DELETE(
   _request: Request,

@@ -148,15 +148,59 @@ export default function PublicClientView({ rankedStudents, activeSession, upcomi
 
             {/* Stat Cards */}
             <div className="stats-grid">
-              {[
-                { label: 'Students', value: rankedStudents.length },
-                { label: 'Sessions', value: totalSessions }
-              ].map((stat, i) => (
-                <div key={i} className="glass-card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <div style={{ fontFamily: 'var(--font-sans)', fontSize: '14px', color: 'var(--text-muted)' }}>{stat.label}</div>
-                  <div style={{ fontFamily: 'var(--font-grotesk)', fontSize: '32px', fontWeight: 700, color: 'var(--text-primary)' }}>{stat.value}</div>
+              {/* Students Card */}
+              <div className="stat-card-premium">
+                <div className="stat-card-glow" />
+                <div className="stat-card-grid-bg" />
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', zIndex: 1, position: 'relative' }}>
+                  <div className="stat-card-label">
+                    <span style={{ display: 'inline-block', width: '6px', height: '6px', borderRadius: '50%', background: 'var(--accent)' }} />
+                    Students
+                  </div>
+                  <svg className="stat-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--text-muted)', opacity: 0.8 }}>
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                  </svg>
                 </div>
-              ))}
+                <div style={{ zIndex: 1, position: 'relative' }}>
+                  <div className="stat-card-value">
+                    {rankedStudents.length.toString().padStart(2, '0')}
+                    <span className="stat-card-value-unit">active</span>
+                  </div>
+                  <div className="stat-card-footer">
+                    <span>Enrolled on leaderboard</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Sessions Card */}
+              <div className="stat-card-premium">
+                <div className="stat-card-glow" />
+                <div className="stat-card-grid-bg" />
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', zIndex: 1, position: 'relative' }}>
+                  <div className="stat-card-label">
+                    <span style={{ display: 'inline-block', width: '6px', height: '6px', borderRadius: '50%', background: '#60A5FA' }} />
+                    Sessions
+                  </div>
+                  <svg className="stat-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--text-muted)', opacity: 0.8 }}>
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                  </svg>
+                </div>
+                <div style={{ zIndex: 1, position: 'relative' }}>
+                  <div className="stat-card-value">
+                    {totalSessions.toString().padStart(2, '0')}
+                    <span className="stat-card-value-unit">total</span>
+                  </div>
+                  <div className="stat-card-footer">
+                    <span>Curriculum lectures</span>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* SECTION 2: TOP 3 */}
