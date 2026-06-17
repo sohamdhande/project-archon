@@ -210,102 +210,151 @@ export default function PublicClientView({ rankedStudents, activeSession, upcomi
 
                   {/* Rank 2 */}
                   {rankedStudents[1] && (
-                    <div className="podium-card-premium podium-card-silver podium-card-2">
-                      <div style={{ position: 'absolute', top: '-20px', fontSize: '28px', fontWeight: 700, fontFamily: 'var(--font-quantico)', color: '#CBD5E1', textShadow: '0 0 10px rgba(203, 213, 225, 0.2)' }}>2nd</div>
+                    <div className="podium-card-esports podium-height-2 podium-card-2">
+                      <div className="podium-medal-glow" />
                       
-                      <div className="avatar-frame avatar-frame-silver" style={{ width: '80px', height: '80px', marginTop: '16px', marginBottom: '16px' }}>
-                        <div style={{ fontFamily: 'var(--font-grotesk)', fontSize: '22px', fontWeight: 700, color: '#CBD5E1' }}>
-                          {getInitials(rankedStudents[1].name)}
+                      {/* Top medal header */}
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', width: '100%' }}>
+                        <div className="podium-badge-medal">
+                          {/* Silver Premium Trophy SVG */}
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#CBD5E1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ filter: 'drop-shadow(0 0 6px rgba(203,213,225,0.4))' }}>
+                            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+                            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+                            <path d="M4 22h16" />
+                            <path d="M10 14.66V17c0 .55-.45 1-1 1H4v2h16v-2h-5c-.55 0-1-.45-1-1v-2.34" />
+                            <path d="M12 2a4 4 0 0 1 4 4v5a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4Z" />
+                          </svg>
+                        </div>
+                        
+                        {/* Avatar */}
+                        <div className="avatar-squircle avatar-squircle-silver" style={{ width: '80px', height: '80px' }}>
+                          <div style={{ fontFamily: 'var(--font-space-grotesk), var(--font-grotesk)', fontSize: '22px', fontWeight: 700, color: '#CBD5E1' }}>
+                            {getInitials(rankedStudents[1].name)}
+                          </div>
                         </div>
                       </div>
 
-                      <div style={{ fontFamily: 'var(--font-inter), var(--font-sans)', fontSize: '18px', fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--text-primary)', marginBottom: '20px', textAlign: 'center' }}>
-                        {rankedStudents[1].name}
+                      {/* Participant name and stats */}
+                      <div className="podium-info-container">
+                        <h3 className="podium-name-esports podium-name-silver">
+                          {rankedStudents[1].name}
+                        </h3>
+                        
+                        <div className="podium-chips-row">
+                          <span className="stat-chip">
+                            {rankedStudents[1].attendanceCount} sessions
+                          </span>
+                          <span className="stat-chip stat-chip-accent">
+                            +{rankedStudents[1].manualPoints} pts
+                          </span>
+                        </div>
                       </div>
 
-                      <div style={{ width: '100%', display: 'flex', gap: '12px', borderBottom: '1px solid rgba(255, 255, 255, 0.03)', paddingBottom: '16px', marginBottom: '4px' }}>
-                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-                          <span className="podium-stat-label">Attendance</span>
-                          <span className="podium-stat-val">{rankedStudents[1].attendanceCount}</span>
-                        </div>
-                        <div style={{ width: '1px', background: 'rgba(255, 255, 255, 0.06)' }} />
-                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-                          <span className="podium-stat-label">Points</span>
-                          <span className="podium-stat-val">+{rankedStudents[1].manualPoints}</span>
-                        </div>
-                      </div>
-
-                      <div className="podium-score-pill">
-                        <span className="podium-stat-label">Total Score</span>
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '18px', fontWeight: 700, color: '#CBD5E1' }}>{rankedStudents[1].score}</span>
+                      {/* Score Focal Point */}
+                      <div className="score-focal-pill">
+                        <span className="score-focal-label">Score</span>
+                        <span className="score-focal-value">{rankedStudents[1].score}</span>
                       </div>
                     </div>
                   )}
 
                   {/* Rank 1 */}
                   {rankedStudents[0] && (
-                    <div className="podium-card-premium podium-card-gold podium-card-1">
-                      <div style={{ position: 'absolute', top: '-24px', fontSize: '36px', fontWeight: 700, fontFamily: 'var(--font-quantico)', color: '#F59E0B', textShadow: '0 0 15px rgba(245, 158, 11, 0.3)' }}>1st</div>
+                    <div className="podium-card-esports podium-height-1 podium-card-1">
+                      <div className="podium-height-1-glow" />
+                      <div className="podium-medal-glow" />
                       
-                      <div className="avatar-frame avatar-frame-gold" style={{ width: '96px', height: '96px', marginTop: '16px', marginBottom: '20px' }}>
-                        <div style={{ fontFamily: 'var(--font-grotesk)', fontSize: '26px', fontWeight: 700, color: '#F59E0B' }}>
-                          {getInitials(rankedStudents[0].name)}
+                      {/* Top medal header */}
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', width: '100%' }}>
+                        <div className="podium-badge-medal">
+                          {/* Gold Premium Trophy SVG */}
+                          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ filter: 'drop-shadow(0 0 8px rgba(245,158,11,0.6))' }}>
+                            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+                            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+                            <path d="M4 22h16" />
+                            <path d="M10 14.66V17c0 .55-.45 1-1 1H4v2h16v-2h-5c-.55 0-1-.45-1-1v-2.34" />
+                            <path d="M12 2a4 4 0 0 1 4 4v5a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4Z" />
+                          </svg>
+                        </div>
+                        
+                        {/* Avatar */}
+                        <div className="avatar-squircle avatar-squircle-gold" style={{ width: '96px', height: '96px' }}>
+                          <div style={{ fontFamily: 'var(--font-space-grotesk), var(--font-grotesk)', fontSize: '26px', fontWeight: 700, color: '#F59E0B' }}>
+                            {getInitials(rankedStudents[0].name)}
+                          </div>
                         </div>
                       </div>
 
-                      <div style={{ fontFamily: 'var(--font-inter), var(--font-sans)', fontSize: '22px', fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--text-primary)', marginBottom: '24px', textAlign: 'center' }}>
-                        {rankedStudents[0].name}
+                      {/* Participant name and stats */}
+                      <div className="podium-info-container" style={{ gap: '10px' }}>
+                        <h3 className="podium-name-esports podium-name-gold">
+                          {rankedStudents[0].name}
+                        </h3>
+                        
+                        <div className="podium-chips-row">
+                          <span className="stat-chip stat-chip-gold">
+                            {rankedStudents[0].attendanceCount} sessions
+                          </span>
+                          <span className="stat-chip stat-chip-accent">
+                            +{rankedStudents[0].manualPoints} pts
+                          </span>
+                        </div>
                       </div>
 
-                      <div style={{ width: '100%', display: 'flex', gap: '12px', borderBottom: '1px solid rgba(255, 255, 255, 0.03)', paddingBottom: '16px', marginBottom: '4px' }}>
-                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-                          <span className="podium-stat-label">Attendance</span>
-                          <span className="podium-stat-val">{rankedStudents[0].attendanceCount}</span>
-                        </div>
-                        <div style={{ width: '1px', background: 'rgba(255, 255, 255, 0.06)' }} />
-                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-                          <span className="podium-stat-label">Points</span>
-                          <span className="podium-stat-val">+{rankedStudents[0].manualPoints}</span>
-                        </div>
-                      </div>
-
-                      <div className="podium-score-pill podium-score-pill-gold">
-                        <span className="podium-stat-label" style={{ color: 'rgba(245, 158, 11, 0.8)' }}>Total Score</span>
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '22px', fontWeight: 800, color: '#F59E0B' }}>{rankedStudents[0].score}</span>
+                      {/* Score Focal Point */}
+                      <div className="score-focal-pill score-focal-pill-gold">
+                        <span className="score-focal-label">Score</span>
+                        <span className="score-focal-value score-focal-value-gold">{rankedStudents[0].score}</span>
                       </div>
                     </div>
                   )}
 
                   {/* Rank 3 */}
                   {rankedStudents[2] && (
-                    <div className="podium-card-premium podium-card-bronze podium-card-3">
-                      <div style={{ position: 'absolute', top: '-20px', fontSize: '28px', fontWeight: 700, fontFamily: 'var(--font-quantico)', color: '#CD7F32', textShadow: '0 0 10px rgba(205, 127, 50, 0.2)' }}>3rd</div>
+                    <div className="podium-card-esports podium-height-3 podium-card-3">
+                      <div className="podium-medal-glow" />
                       
-                      <div className="avatar-frame avatar-frame-bronze" style={{ width: '80px', height: '80px', marginTop: '16px', marginBottom: '16px' }}>
-                        <div style={{ fontFamily: 'var(--font-grotesk)', fontSize: '22px', fontWeight: 700, color: '#CD7F32' }}>
-                          {getInitials(rankedStudents[2].name)}
+                      {/* Top medal header */}
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', width: '100%' }}>
+                        <div className="podium-badge-medal">
+                          {/* Bronze Premium Trophy SVG */}
+                          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#CD7F32" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ filter: 'drop-shadow(0 0 6px rgba(205,127,50,0.4))' }}>
+                            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+                            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+                            <path d="M4 22h16" />
+                            <path d="M10 14.66V17c0 .55-.45 1-1 1H4v2h16v-2h-5c-.55 0-1-.45-1-1v-2.34" />
+                            <path d="M12 2a4 4 0 0 1 4 4v5a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4Z" />
+                          </svg>
+                        </div>
+                        
+                        {/* Avatar */}
+                        <div className="avatar-squircle avatar-squircle-bronze" style={{ width: '80px', height: '80px' }}>
+                          <div style={{ fontFamily: 'var(--font-space-grotesk), var(--font-grotesk)', fontSize: '20px', fontWeight: 700, color: '#CD7F32' }}>
+                            {getInitials(rankedStudents[2].name)}
+                          </div>
                         </div>
                       </div>
 
-                      <div style={{ fontFamily: 'var(--font-inter), var(--font-sans)', fontSize: '18px', fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--text-primary)', marginBottom: '20px', textAlign: 'center' }}>
-                        {rankedStudents[2].name}
+                      {/* Participant name and stats */}
+                      <div className="podium-info-container">
+                        <h3 className="podium-name-esports podium-name-bronze">
+                          {rankedStudents[2].name}
+                        </h3>
+                        
+                        <div className="podium-chips-row">
+                          <span className="stat-chip">
+                            {rankedStudents[2].attendanceCount} sessions
+                          </span>
+                          <span className="stat-chip stat-chip-accent">
+                            +{rankedStudents[2].manualPoints} pts
+                          </span>
+                        </div>
                       </div>
 
-                      <div style={{ width: '100%', display: 'flex', gap: '12px', borderBottom: '1px solid rgba(255, 255, 255, 0.03)', paddingBottom: '16px', marginBottom: '4px' }}>
-                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-                          <span className="podium-stat-label">Attendance</span>
-                          <span className="podium-stat-val">{rankedStudents[2].attendanceCount}</span>
-                        </div>
-                        <div style={{ width: '1px', background: 'rgba(255, 255, 255, 0.06)' }} />
-                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-                          <span className="podium-stat-label">Points</span>
-                          <span className="podium-stat-val">+{rankedStudents[2].manualPoints}</span>
-                        </div>
-                      </div>
-
-                      <div className="podium-score-pill">
-                        <span className="podium-stat-label">Total Score</span>
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '18px', fontWeight: 700, color: '#CD7F32' }}>{rankedStudents[2].score}</span>
+                      {/* Score Focal Point */}
+                      <div className="score-focal-pill">
+                        <span className="score-focal-label">Score</span>
+                        <span className="score-focal-value">{rankedStudents[2].score}</span>
                       </div>
                     </div>
                   )}
@@ -382,20 +431,20 @@ export default function PublicClientView({ rankedStudents, activeSession, upcomi
               <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                 {upcomingSessions.map((session, index) => {
                   const isNext = index === 0 && (!activeSession); // Highlight as next if it's the very first one and no live session
-                  
+
                   return (
                     <div key={session.id} className="glass-card session-card">
                       <div style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 600, color: 'var(--text-muted)', letterSpacing: '0.1em', marginBottom: '24px' }}>
                         {isNext ? 'UPCOMING SESSION' : 'FUTURE SESSION'}
                       </div>
                       <h2 style={{ fontFamily: 'var(--font-grotesk)', fontSize: '32px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '16px' }}>{session.title}</h2>
-                      
+
                       {isNext && (
                         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', color: 'var(--accent)', marginBottom: '16px', padding: '8px 16px', background: 'rgba(94,234,212,0.1)', display: 'inline-block', borderRadius: '8px' }}>
                           Starts in {getTimerText(new Date(session.lecture_start))}
                         </div>
                       )}
-                      
+
                       <div style={{ fontFamily: 'var(--font-mono)', fontSize: '16px', color: 'var(--text-primary)' }}>
                         {new Date(session.lecture_start).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} • {formatTime(session.lecture_start)} - {formatTime(session.lecture_end)}
                       </div>
