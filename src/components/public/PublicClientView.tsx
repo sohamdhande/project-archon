@@ -148,69 +148,132 @@ export default function PublicClientView({ rankedStudents, activeSession, upcomi
 
             {/* Stat Cards */}
             <div className="stats-grid">
-              {[
-                { label: 'Students', value: rankedStudents.length },
-                { label: 'Sessions', value: totalSessions }
-              ].map((stat, i) => (
-                <div key={i} className="glass-card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <div style={{ fontFamily: 'var(--font-sans)', fontSize: '14px', color: 'var(--text-muted)' }}>{stat.label}</div>
-                  <div style={{ fontFamily: 'var(--font-grotesk)', fontSize: '32px', fontWeight: 700, color: 'var(--text-primary)' }}>{stat.value}</div>
+              {/* Students Card */}
+              <div className="stat-card-premium">
+                <div className="stat-card-glow" />
+                <div className="stat-card-grid-bg" />
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', zIndex: 1, position: 'relative' }}>
+                  <div className="stat-card-label">
+                    <span style={{ display: 'inline-block', width: '6px', height: '6px', borderRadius: '50%', background: 'var(--accent)' }} />
+                    Students
+                  </div>
+                  <svg className="stat-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--text-muted)', opacity: 0.8 }}>
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                  </svg>
                 </div>
-              ))}
+                <div style={{ zIndex: 1, position: 'relative' }}>
+                  <div className="stat-card-value">
+                    {rankedStudents.length.toString().padStart(2, '0')}
+                    <span className="stat-card-value-unit">active</span>
+                  </div>
+                  <div className="stat-card-footer">
+                    <span>Enrolled on leaderboard</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Sessions Card */}
+              <div className="stat-card-premium">
+                <div className="stat-card-glow" />
+                <div className="stat-card-grid-bg" />
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', zIndex: 1, position: 'relative' }}>
+                  <div className="stat-card-label">
+                    <span style={{ display: 'inline-block', width: '6px', height: '6px', borderRadius: '50%', background: '#60A5FA' }} />
+                    Sessions
+                  </div>
+                  <svg className="stat-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--text-muted)', opacity: 0.8 }}>
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                  </svg>
+                </div>
+                <div style={{ zIndex: 1, position: 'relative' }}>
+                  <div className="stat-card-value">
+                    {totalSessions.toString().padStart(2, '0')}
+                    <span className="stat-card-value-unit">total</span>
+                  </div>
+                  <div className="stat-card-footer">
+                    <span>Curriculum lectures</span>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* SECTION 2: TOP 3 */}
             {rankedStudents.length > 0 && (
               <div style={{ marginBottom: '80px' }}>
-                <div className="podium-grid">
+                <div className="podium-grid-esports">
 
                   {/* Rank 2 */}
                   {rankedStudents[1] && (
-                    <div className="glass-card podium-card podium-card-2">
-                      <div style={{ position: 'absolute', top: '-20px', fontSize: '28px', fontWeight: 700, fontFamily: 'var(--font-quantico)', color: '#CBD5E1', textShadow: '0 0 10px rgba(203, 213, 225, 0.2)' }}>2nd</div>
-                      <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-grotesk)', fontSize: '24px', fontWeight: 700, marginTop: '16px', marginBottom: '16px' }}>
-                        {getInitials(rankedStudents[1].name)}
-                      </div>
-                      <div style={{ fontFamily: 'var(--font-grotesk)', fontSize: '20px', fontWeight: 700, marginBottom: '24px', textAlign: 'center' }}>{rankedStudents[1].name}</div>
-
-                      <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '13px' }}><span style={{ color: 'var(--text-muted)' }}>Attendance</span><span>{rankedStudents[1].attendanceCount}</span></div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '13px' }}><span style={{ color: 'var(--text-muted)' }}>Points</span><span>{rankedStudents[1].manualPoints}</span></div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '16px', fontWeight: 600, color: 'var(--accent)', marginTop: '8px', paddingTop: '8px', borderTop: '1px solid var(--border-subtle)' }}><span>Score</span><span>{rankedStudents[1].score}</span></div>
+                    <div className="podium-block-wrapper podium-card-2">
+                      <div className="podium-rank-header rank-silver">2nd</div>
+                      <div className="podium-step-block block-height-2">
+                        <div className="podium-content-top">
+                          <h3 className="podium-student-name">
+                            {rankedStudents[1].name}
+                          </h3>
+                          <div className="podium-metadata-row">
+                            <span>{rankedStudents[1].attendanceCount} Att</span>
+                            <span className="meta-dot">•</span>
+                            <span style={{ color: 'var(--accent)' }}>+{rankedStudents[1].manualPoints} Pts</span>
+                          </div>
+                        </div>
+                        <div className="podium-score-container">
+                          <span className="podium-score-tag">Score</span>
+                          <span className="podium-score-display score-size-silver">{rankedStudents[1].score}</span>
+                        </div>
                       </div>
                     </div>
                   )}
 
                   {/* Rank 1 */}
                   {rankedStudents[0] && (
-                    <div className="glass-card podium-card-highlighted podium-card-1">
-                      <div style={{ position: 'absolute', top: '-24px', fontSize: '36px', fontWeight: 700, fontFamily: 'var(--font-quantico)', color: '#F59E0B', textShadow: '0 0 15px rgba(245, 158, 11, 0.3)' }}>1st</div>
-                      <div style={{ width: '96px', height: '96px', borderRadius: '50%', background: 'rgba(94, 234, 212, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-grotesk)', fontSize: '32px', fontWeight: 700, color: 'var(--accent)', marginTop: '16px', marginBottom: '20px' }}>
-                        {getInitials(rankedStudents[0].name)}
-                      </div>
-                      <div style={{ fontFamily: 'var(--font-grotesk)', fontSize: '24px', fontWeight: 700, marginBottom: '32px', textAlign: 'center' }}>{rankedStudents[0].name}</div>
-
-                      <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '14px' }}><span style={{ color: 'var(--text-muted)' }}>Attendance</span><span>{rankedStudents[0].attendanceCount}</span></div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '14px' }}><span style={{ color: 'var(--text-muted)' }}>Points</span><span>{rankedStudents[0].manualPoints}</span></div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '20px', fontWeight: 700, color: 'var(--accent)', marginTop: '8px', paddingTop: '12px', borderTop: '1px solid var(--border-subtle)' }}><span>Score</span><span>{rankedStudents[0].score}</span></div>
+                    <div className="podium-block-wrapper podium-card-1">
+                      <div className="podium-rank-header rank-gold">1st</div>
+                      <div className="podium-step-block block-height-1">
+                        <div className="gold-glow-overlay" />
+                        <div className="podium-content-top">
+                          <h3 className="podium-student-name name-gold-text">
+                            {rankedStudents[0].name}
+                          </h3>
+                          <div className="podium-metadata-row">
+                            <span>{rankedStudents[0].attendanceCount} Att</span>
+                            <span className="meta-dot">•</span>
+                            <span style={{ color: 'var(--accent)' }}>+{rankedStudents[0].manualPoints} Pts</span>
+                          </div>
+                        </div>
+                        <div className="podium-score-container">
+                          <span className="podium-score-tag">Score</span>
+                          <span className="podium-score-display score-size-gold">{rankedStudents[0].score}</span>
+                        </div>
                       </div>
                     </div>
                   )}
 
                   {/* Rank 3 */}
                   {rankedStudents[2] && (
-                    <div className="glass-card podium-card podium-card-3">
-                      <div style={{ position: 'absolute', top: '-20px', fontSize: '28px', fontWeight: 700, fontFamily: 'var(--font-quantico)', color: '#CD7F32', textShadow: '0 0 10px rgba(205, 127, 50, 0.2)' }}>3rd</div>
-                      <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-grotesk)', fontSize: '24px', fontWeight: 700, marginTop: '16px', marginBottom: '16px' }}>
-                        {getInitials(rankedStudents[2].name)}
-                      </div>
-                      <div style={{ fontFamily: 'var(--font-grotesk)', fontSize: '20px', fontWeight: 700, marginBottom: '24px', textAlign: 'center' }}>{rankedStudents[2].name}</div>
-
-                      <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '13px' }}><span style={{ color: 'var(--text-muted)' }}>Attendance</span><span>{rankedStudents[2].attendanceCount}</span></div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '13px' }}><span style={{ color: 'var(--text-muted)' }}>Points</span><span>{rankedStudents[2].manualPoints}</span></div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '16px', fontWeight: 600, color: 'var(--accent)', marginTop: '8px', paddingTop: '8px', borderTop: '1px solid var(--border-subtle)' }}><span>Score</span><span>{rankedStudents[2].score}</span></div>
+                    <div className="podium-block-wrapper podium-card-3">
+                      <div className="podium-rank-header rank-bronze">3rd</div>
+                      <div className="podium-step-block block-height-3">
+                        <div className="podium-content-top">
+                          <h3 className="podium-student-name">
+                            {rankedStudents[2].name}
+                          </h3>
+                          <div className="podium-metadata-row">
+                            <span>{rankedStudents[2].attendanceCount} Att</span>
+                            <span className="meta-dot">•</span>
+                            <span style={{ color: 'var(--accent)' }}>+{rankedStudents[2].manualPoints} Pts</span>
+                          </div>
+                        </div>
+                        <div className="podium-score-container">
+                          <span className="podium-score-tag">Score</span>
+                          <span className="podium-score-display score-size-bronze">{rankedStudents[2].score}</span>
+                        </div>
                       </div>
                     </div>
                   )}
@@ -287,20 +350,20 @@ export default function PublicClientView({ rankedStudents, activeSession, upcomi
               <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                 {upcomingSessions.map((session, index) => {
                   const isNext = index === 0 && (!activeSession); // Highlight as next if it's the very first one and no live session
-                  
+
                   return (
                     <div key={session.id} className="glass-card session-card">
                       <div style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 600, color: 'var(--text-muted)', letterSpacing: '0.1em', marginBottom: '24px' }}>
                         {isNext ? 'UPCOMING SESSION' : 'FUTURE SESSION'}
                       </div>
                       <h2 style={{ fontFamily: 'var(--font-grotesk)', fontSize: '32px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '16px' }}>{session.title}</h2>
-                      
+
                       {isNext && (
                         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', color: 'var(--accent)', marginBottom: '16px', padding: '8px 16px', background: 'rgba(94,234,212,0.1)', display: 'inline-block', borderRadius: '8px' }}>
                           Starts in {getTimerText(new Date(session.lecture_start))}
                         </div>
                       )}
-                      
+
                       <div style={{ fontFamily: 'var(--font-mono)', fontSize: '16px', color: 'var(--text-primary)' }}>
                         {new Date(session.lecture_start).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} • {formatTime(session.lecture_start)} - {formatTime(session.lecture_end)}
                       </div>
