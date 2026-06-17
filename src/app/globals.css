@@ -12,10 +12,6 @@
   --accent: #5EEAD4;
   --border-subtle: rgba(255, 255, 255, 0.06);
 
-  --font-grotesk: var(--font-quicksand), sans-serif;
-  --font-mono: var(--font-space-mono), monospace;
-  --font-sans: var(--font-quicksand), sans-serif;
-
   /* Admin fallbacks */
   --bg-elevated: #18181B;
   --danger: #EF4444;
@@ -371,301 +367,211 @@ body {
   color: var(--text-primary) !important;
 }
 
-.podium-grid {
+.podium-grid-esports {
   display: grid;
   grid-template-columns: 1fr 1.1fr 1fr;
-  gap: 24px;
+  gap: 16px;
   align-items: end;
+  margin-top: 64px;
   margin-bottom: 80px;
 }
 
-/* Esports Premium Podium Cards */
-.podium-card-esports {
+.podium-block-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* Rank Label positioned ABOVE the podium block */
+.podium-rank-header {
+  font-family: var(--font-quantico), var(--font-grotesk), sans-serif;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.rank-gold {
+  color: #F59E0B;
+  font-size: 36px;
+  text-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+}
+
+.rank-silver {
+  color: #CBD5E1;
+  font-size: 28px;
+  text-shadow: 0 0 10px rgba(203, 213, 225, 0.2);
+}
+
+.rank-bronze {
+  color: #CD7F32;
+  font-size: 28px;
+  text-shadow: 0 0 10px rgba(205, 127, 50, 0.2);
+}
+
+/* The actual Podium Step Blocks */
+.podium-step-block {
   position: relative;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 32px 24px;
-  border-radius: 20px;
+  padding: 24px 20px;
+  border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  background: linear-gradient(180deg, rgba(12, 17, 23, 0.6) 0%, rgba(5, 7, 10, 0.95) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   box-sizing: border-box;
-  width: 100%;
 }
 
-.podium-card-esports::before {
+/* Inner border glow using gradient borders */
+.podium-step-block::before {
   content: '';
   position: absolute;
   inset: 0;
-  border-radius: 20px;
+  border-radius: 12px;
   padding: 1px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.01));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
 }
 
-.podium-card-esports:hover {
-  transform: translateY(-6px);
+.podium-step-block:hover {
+  transform: translateY(-4px);
 }
 
-/* Height Differences */
-.podium-height-1 {
-  height: 460px;
-  background: linear-gradient(180deg, rgba(245, 158, 11, 0.015) 0%, rgba(12, 17, 23, 0.85) 100%);
+/* Heights: Shorter steps that look like podium blocks */
+.block-height-1 {
+  height: 220px;
+  border-top: 1px solid rgba(245, 158, 11, 0.2);
   box-shadow: 
-    0 30px 60px -20px rgba(0, 0, 0, 0.8),
-    0 0 40px -10px rgba(245, 158, 11, 0.05);
+    0 24px 48px -12px rgba(0, 0, 0, 0.8),
+    0 0 30px -5px rgba(245, 158, 11, 0.03);
 }
 
-.podium-height-1::before {
-  background: linear-gradient(180deg, rgba(245, 158, 11, 0.4) 0%, rgba(245, 158, 11, 0.05) 100%);
+.block-height-1::before {
+  background: linear-gradient(180deg, rgba(245, 158, 11, 0.3) 0%, rgba(245, 158, 11, 0.02) 100%);
 }
 
-.podium-height-1::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 20px;
-  pointer-events: none;
-  box-shadow: inset 0 0 24px rgba(245, 158, 11, 0.03);
-  opacity: 0.8;
-}
-
-/* Highlight/glow outline specifically for 1st performer */
-.podium-height-1-glow {
+/* Subtle glow only on 1st place */
+.gold-glow-overlay {
   position: absolute;
   inset: -1px;
-  border-radius: 21px;
-  background: radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.35) 0%, transparent 60%);
+  border-radius: 13px;
+  background: radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.15) 0%, transparent 60%);
   pointer-events: none;
   z-index: 0;
-  opacity: 0.8;
 }
 
-.podium-height-2 {
-  height: 390px;
-  background: linear-gradient(180deg, rgba(148, 163, 184, 0.008) 0%, rgba(12, 17, 23, 0.85) 100%);
-  box-shadow: 
-    0 24px 50px -20px rgba(0, 0, 0, 0.7),
-    0 0 30px -15px rgba(148, 163, 184, 0.02);
+.block-height-2 {
+  height: 180px;
+  border-top: 1px solid rgba(148, 163, 184, 0.15);
+  box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.7);
 }
 
-.podium-height-2::before {
-  background: linear-gradient(180deg, rgba(148, 163, 184, 0.25) 0%, rgba(148, 163, 184, 0.03) 100%);
+.block-height-2::before {
+  background: linear-gradient(180deg, rgba(148, 163, 184, 0.2) 0%, rgba(148, 163, 184, 0.02) 100%);
 }
 
-.podium-height-3 {
-  height: 340px;
-  background: linear-gradient(180deg, rgba(201, 115, 53, 0.005) 0%, rgba(12, 17, 23, 0.85) 100%);
-  box-shadow: 
-    0 20px 45px -20px rgba(0, 0, 0, 0.7),
-    0 0 30px -15px rgba(201, 115, 53, 0.02);
+.block-height-3 {
+  height: 150px;
+  border-top: 1px solid rgba(201, 115, 53, 0.12);
+  box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.7);
 }
 
-.podium-height-3::before {
-  background: linear-gradient(180deg, rgba(201, 115, 53, 0.2) 0%, rgba(201, 115, 53, 0.03) 100%);
+.block-height-3::before {
+  background: linear-gradient(180deg, rgba(201, 115, 53, 0.15) 0%, rgba(201, 115, 53, 0.01) 100%);
 }
 
-/* Rank specific premium indicators */
-.podium-badge-medal {
+/* Layout inside block */
+.podium-content-top {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  border-radius: 50%;
+  width: 100%;
+  gap: 6px;
   z-index: 1;
 }
 
-.podium-medal-glow {
-  position: absolute;
-  width: 130px;
-  height: 130px;
-  background: radial-gradient(circle, rgba(245, 158, 11, 0.06) 0%, transparent 70%);
-  top: -65px;
-  pointer-events: none;
-}
-
-.podium-height-1 .podium-medal-glow {
-  background: radial-gradient(circle, rgba(245, 158, 11, 0.08) 0%, transparent 70%);
-}
-
-.podium-height-2 .podium-medal-glow {
-  background: radial-gradient(circle, rgba(148, 163, 184, 0.05) 0%, transparent 70%);
-}
-
-.podium-height-3 .podium-medal-glow {
-  background: radial-gradient(circle, rgba(201, 115, 53, 0.05) 0%, transparent 70%);
-}
-
-/* Avatar Frame Squircles */
-.avatar-squircle {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.015);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.02);
-  transition: all 0.4s ease;
-  z-index: 1;
-}
-
-.podium-card-esports:hover .avatar-squircle {
-  transform: scale(1.04);
-  border-color: rgba(255, 255, 255, 0.08);
-}
-
-.avatar-squircle-gold {
-  border-color: rgba(245, 158, 11, 0.3);
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(245, 158, 11, 0.01) 100%);
-  box-shadow: 
-    inset 0 2px 6px rgba(245, 158, 11, 0.05),
-    0 8px 20px -8px rgba(245, 158, 11, 0.2);
-}
-
-.avatar-squircle-silver {
-  border-color: rgba(148, 163, 184, 0.25);
-  background: linear-gradient(135deg, rgba(148, 163, 184, 0.06) 0%, rgba(148, 163, 184, 0.01) 100%);
-}
-
-.avatar-squircle-bronze {
-  border-color: rgba(201, 115, 53, 0.2);
-  background: linear-gradient(135deg, rgba(201, 115, 53, 0.06) 0%, rgba(201, 115, 53, 0.01) 100%);
-}
-
-/* Esports-Level Typography */
-.podium-name-esports {
+.podium-student-name {
   font-family: var(--font-inter), var(--font-sans);
+  font-size: 16px;
   font-weight: 700;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
   color: var(--text-primary);
   text-align: center;
   margin: 0;
-  z-index: 1;
   text-transform: uppercase;
 }
 
-.podium-name-gold {
-  font-size: 22px;
-  background: linear-gradient(90deg, #FFFFFF 30%, #FCE7F3 50%, #F59E0B 100%);
+.name-gold-text {
+  font-size: 18px;
+  background: linear-gradient(90deg, #FFFFFF 40%, #FFE8BF 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.podium-name-silver {
-  font-size: 18px;
-  color: #F8FAFC;
-}
-
-.podium-name-bronze {
-  font-size: 17px;
-  color: #E2E8F0;
-}
-
-/* Spacing and info layouts */
-.podium-info-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  gap: 8px; /* 8px grid */
-  margin-top: 16px;
-  margin-bottom: 24px;
-  z-index: 1;
-}
-
-/* Compact Stat Chips */
-.podium-chips-row {
+.podium-metadata-row {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px; /* 8px spacing */
-  width: 100%;
-}
-
-.stat-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 10px;
-  border-radius: 99px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.03);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
+  gap: 8px;
+  font-family: var(--font-space-mono), var(--font-mono), monospace;
+  font-size: 11px;
   color: var(--text-muted);
 }
 
-.stat-chip-accent {
-  background: rgba(94, 234, 212, 0.03);
-  border-color: rgba(94, 234, 212, 0.1);
-  color: var(--accent);
+.meta-dot {
+  color: rgba(255, 255, 255, 0.15);
 }
 
-.stat-chip-gold {
-  background: rgba(245, 158, 11, 0.04);
-  border-color: rgba(245, 158, 11, 0.15);
-  color: #F59E0B;
-}
-
-/* Score Focal Point */
-.score-focal-pill {
-  width: 100%;
+/* Integrated Score representation at the bottom */
+.podium-score-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 16px 20px;
-  border-radius: 12px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.01) 0%, rgba(255, 255, 255, 0.025) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
   z-index: 1;
+  width: 100%;
 }
 
-.podium-card-esports:hover .score-focal-pill {
-  border-color: rgba(255, 255, 255, 0.08);
-}
-
-.score-focal-pill-gold {
-  background: linear-gradient(180deg, rgba(245, 158, 11, 0.03) 0%, rgba(245, 158, 11, 0.07) 100%);
-  border-color: rgba(245, 158, 11, 0.18);
-  box-shadow: 
-    inset 0 1px 0 rgba(245, 158, 11, 0.05),
-    0 4px 20px -5px rgba(245, 158, 11, 0.15);
-}
-
-.score-focal-pill-gold .score-focal-label {
-  color: rgba(245, 158, 11, 0.8);
-}
-
-.score-focal-label {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--text-muted);
+.podium-score-tag {
+  font-family: var(--font-space-mono), var(--font-mono), monospace;
+  font-size: 9px;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  margin-bottom: 4px;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 2px;
 }
 
-.score-focal-value {
-  font-family: var(--font-mono);
-  font-size: 32px;
+.podium-score-display {
+  font-family: var(--font-space-mono), var(--font-mono), monospace;
   font-weight: 800;
-  line-height: 1;
-  color: var(--text-primary);
+  line-height: 1.1;
   letter-spacing: -0.03em;
 }
 
-.score-focal-value-gold {
+.score-size-gold {
+  font-size: 36px;
   color: #F59E0B;
-  text-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+  text-shadow: 0 0 15px rgba(245, 158, 11, 0.35);
+}
+
+.score-size-silver {
+  font-size: 30px;
+  color: #CBD5E1;
+}
+
+.score-size-bronze {
+  font-size: 28px;
+  color: #CD7F32;
 }
 
 .table-container {
@@ -738,13 +644,14 @@ body {
 
 /* Tablet & Mobile Breakpoints */
 @media (max-width: 1024px) {
-  .podium-grid {
+  .podium-grid-esports {
     grid-template-columns: 1fr;
     gap: 32px;
   }
-  .podium-card-esports {
+  .podium-step-block {
     height: auto !important;
-    min-height: 300px;
+    min-height: 140px;
+    padding: 20px;
   }
   .podium-card-1 {
     order: 1;
