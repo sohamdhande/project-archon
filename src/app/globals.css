@@ -310,22 +310,158 @@ html, body {
   align-items: end;
 }
 
-.podium-card {
-  padding: 32px;
+.podium-card, .podium-card-highlighted {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.podium-card-highlighted {
-  padding: 40px 32px;
+/* Premium Podium Cards */
+.podium-card-premium {
   position: relative;
+  border-radius: 20px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 32px 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: rgba(94, 234, 212, 0.05);
-  border: 1px solid rgba(94, 234, 212, 0.2);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  width: 100%;
+}
+
+.podium-card-premium::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.005) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.005) 1px, transparent 1px);
+  background-size: 16px 16px;
+  pointer-events: none;
+  opacity: 0.5;
+  mask-image: radial-gradient(circle at 50% 30%, black 20%, transparent 60%);
+  -webkit-mask-image: radial-gradient(circle at 50% 30%, black 20%, transparent 60%);
+}
+
+.podium-card-premium:hover {
+  transform: translateY(-4px);
+}
+
+/* 1st Place - Gold */
+.podium-card-gold {
+  background: linear-gradient(180deg, rgba(245, 158, 11, 0.02) 0%, rgba(245, 158, 11, 0.06) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.08);
+  border-top: 1px solid rgba(245, 158, 11, 0.25);
+  box-shadow: 
+    0 20px 40px -20px rgba(0, 0, 0, 0.7),
+    0 0 30px -10px rgba(245, 158, 11, 0.03);
+  padding: 40px 28px;
+}
+
+.podium-card-gold:hover {
+  border-color: rgba(245, 158, 11, 0.15);
+  border-top-color: rgba(245, 158, 11, 0.4);
+  box-shadow: 
+    0 24px 50px -15px rgba(0, 0, 0, 0.8),
+    0 0 30px -5px rgba(245, 158, 11, 0.06);
+}
+
+/* 2nd Place - Silver */
+.podium-card-silver {
+  background: linear-gradient(180deg, rgba(148, 163, 184, 0.01) 0%, rgba(148, 163, 184, 0.04) 100%);
+  border: 1px solid rgba(148, 163, 184, 0.06);
+  border-top: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: 0 16px 30px -15px rgba(0, 0, 0, 0.6);
+}
+
+.podium-card-silver:hover {
+  border-color: rgba(148, 163, 184, 0.12);
+  border-top-color: rgba(148, 163, 184, 0.35);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7);
+}
+
+/* 3rd Place - Bronze */
+.podium-card-bronze {
+  background: linear-gradient(180deg, rgba(201, 115, 53, 0.005) 0%, rgba(201, 115, 53, 0.03) 100%);
+  border: 1px solid rgba(201, 115, 53, 0.05);
+  border-top: 1px solid rgba(201, 115, 53, 0.18);
+  box-shadow: 0 16px 30px -15px rgba(0, 0, 0, 0.6);
+}
+
+.podium-card-bronze:hover {
+  border-color: rgba(201, 115, 53, 0.1);
+  border-top-color: rgba(201, 115, 53, 0.3);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7);
+}
+
+/* Premium Squircle Avatar Framings */
+.avatar-frame {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.podium-card-premium:hover .avatar-frame {
+  transform: scale(1.05);
+}
+
+.avatar-frame-gold {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(245, 158, 11, 0.02) 100%);
+  border: 1.5px solid rgba(245, 158, 11, 0.3);
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);
+}
+
+.avatar-frame-silver {
+  background: linear-gradient(135deg, rgba(148, 163, 184, 0.08) 0%, rgba(148, 163, 184, 0.01) 100%);
+  border: 1.5px solid rgba(148, 163, 184, 0.25);
+}
+
+.avatar-frame-bronze {
+  background: linear-gradient(135deg, rgba(201, 115, 53, 0.08) 0%, rgba(201, 115, 53, 0.01) 100%);
+  border: 1.5px solid rgba(201, 115, 53, 0.2);
+}
+
+/* Stats Layout inside Podium Card */
+.podium-stat-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.podium-stat-val {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.podium-score-pill {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 99px;
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 16px;
+  box-sizing: border-box;
+}
+
+.podium-score-pill-gold {
+  background: rgba(245, 158, 11, 0.04);
+  border: 1px solid rgba(245, 158, 11, 0.15);
 }
 
 .table-container {

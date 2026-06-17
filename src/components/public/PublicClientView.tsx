@@ -210,51 +210,102 @@ export default function PublicClientView({ rankedStudents, activeSession, upcomi
 
                   {/* Rank 2 */}
                   {rankedStudents[1] && (
-                    <div className="glass-card podium-card podium-card-2">
+                    <div className="podium-card-premium podium-card-silver podium-card-2">
                       <div style={{ position: 'absolute', top: '-20px', fontSize: '28px', fontWeight: 700, fontFamily: 'var(--font-quantico)', color: '#CBD5E1', textShadow: '0 0 10px rgba(203, 213, 225, 0.2)' }}>2nd</div>
-                      <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-grotesk)', fontSize: '24px', fontWeight: 700, marginTop: '16px', marginBottom: '16px' }}>
-                        {getInitials(rankedStudents[1].name)}
+                      
+                      <div className="avatar-frame avatar-frame-silver" style={{ width: '80px', height: '80px', marginTop: '16px', marginBottom: '16px' }}>
+                        <div style={{ fontFamily: 'var(--font-grotesk)', fontSize: '22px', fontWeight: 700, color: '#CBD5E1' }}>
+                          {getInitials(rankedStudents[1].name)}
+                        </div>
                       </div>
-                      <div style={{ fontFamily: 'var(--font-grotesk)', fontSize: '20px', fontWeight: 700, marginBottom: '24px', textAlign: 'center' }}>{rankedStudents[1].name}</div>
 
-                      <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '13px' }}><span style={{ color: 'var(--text-muted)' }}>Attendance</span><span>{rankedStudents[1].attendanceCount}</span></div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '13px' }}><span style={{ color: 'var(--text-muted)' }}>Points</span><span>{rankedStudents[1].manualPoints}</span></div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '16px', fontWeight: 600, color: 'var(--accent)', marginTop: '8px', paddingTop: '8px', borderTop: '1px solid var(--border-subtle)' }}><span>Score</span><span>{rankedStudents[1].score}</span></div>
+                      <div style={{ fontFamily: 'var(--font-inter), var(--font-sans)', fontSize: '18px', fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--text-primary)', marginBottom: '20px', textAlign: 'center' }}>
+                        {rankedStudents[1].name}
+                      </div>
+
+                      <div style={{ width: '100%', display: 'flex', gap: '12px', borderBottom: '1px solid rgba(255, 255, 255, 0.03)', paddingBottom: '16px', marginBottom: '4px' }}>
+                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+                          <span className="podium-stat-label">Attendance</span>
+                          <span className="podium-stat-val">{rankedStudents[1].attendanceCount}</span>
+                        </div>
+                        <div style={{ width: '1px', background: 'rgba(255, 255, 255, 0.06)' }} />
+                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+                          <span className="podium-stat-label">Points</span>
+                          <span className="podium-stat-val">+{rankedStudents[1].manualPoints}</span>
+                        </div>
+                      </div>
+
+                      <div className="podium-score-pill">
+                        <span className="podium-stat-label">Total Score</span>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '18px', fontWeight: 700, color: '#CBD5E1' }}>{rankedStudents[1].score}</span>
                       </div>
                     </div>
                   )}
 
                   {/* Rank 1 */}
                   {rankedStudents[0] && (
-                    <div className="glass-card podium-card-highlighted podium-card-1">
+                    <div className="podium-card-premium podium-card-gold podium-card-1">
                       <div style={{ position: 'absolute', top: '-24px', fontSize: '36px', fontWeight: 700, fontFamily: 'var(--font-quantico)', color: '#F59E0B', textShadow: '0 0 15px rgba(245, 158, 11, 0.3)' }}>1st</div>
-                      <div style={{ width: '96px', height: '96px', borderRadius: '50%', background: 'rgba(94, 234, 212, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-grotesk)', fontSize: '32px', fontWeight: 700, color: 'var(--accent)', marginTop: '16px', marginBottom: '20px' }}>
-                        {getInitials(rankedStudents[0].name)}
+                      
+                      <div className="avatar-frame avatar-frame-gold" style={{ width: '96px', height: '96px', marginTop: '16px', marginBottom: '20px' }}>
+                        <div style={{ fontFamily: 'var(--font-grotesk)', fontSize: '26px', fontWeight: 700, color: '#F59E0B' }}>
+                          {getInitials(rankedStudents[0].name)}
+                        </div>
                       </div>
-                      <div style={{ fontFamily: 'var(--font-grotesk)', fontSize: '24px', fontWeight: 700, marginBottom: '32px', textAlign: 'center' }}>{rankedStudents[0].name}</div>
 
-                      <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '14px' }}><span style={{ color: 'var(--text-muted)' }}>Attendance</span><span>{rankedStudents[0].attendanceCount}</span></div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '14px' }}><span style={{ color: 'var(--text-muted)' }}>Points</span><span>{rankedStudents[0].manualPoints}</span></div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '20px', fontWeight: 700, color: 'var(--accent)', marginTop: '8px', paddingTop: '12px', borderTop: '1px solid var(--border-subtle)' }}><span>Score</span><span>{rankedStudents[0].score}</span></div>
+                      <div style={{ fontFamily: 'var(--font-inter), var(--font-sans)', fontSize: '22px', fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--text-primary)', marginBottom: '24px', textAlign: 'center' }}>
+                        {rankedStudents[0].name}
+                      </div>
+
+                      <div style={{ width: '100%', display: 'flex', gap: '12px', borderBottom: '1px solid rgba(255, 255, 255, 0.03)', paddingBottom: '16px', marginBottom: '4px' }}>
+                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+                          <span className="podium-stat-label">Attendance</span>
+                          <span className="podium-stat-val">{rankedStudents[0].attendanceCount}</span>
+                        </div>
+                        <div style={{ width: '1px', background: 'rgba(255, 255, 255, 0.06)' }} />
+                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+                          <span className="podium-stat-label">Points</span>
+                          <span className="podium-stat-val">+{rankedStudents[0].manualPoints}</span>
+                        </div>
+                      </div>
+
+                      <div className="podium-score-pill podium-score-pill-gold">
+                        <span className="podium-stat-label" style={{ color: 'rgba(245, 158, 11, 0.8)' }}>Total Score</span>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '22px', fontWeight: 800, color: '#F59E0B' }}>{rankedStudents[0].score}</span>
                       </div>
                     </div>
                   )}
 
                   {/* Rank 3 */}
                   {rankedStudents[2] && (
-                    <div className="glass-card podium-card podium-card-3">
+                    <div className="podium-card-premium podium-card-bronze podium-card-3">
                       <div style={{ position: 'absolute', top: '-20px', fontSize: '28px', fontWeight: 700, fontFamily: 'var(--font-quantico)', color: '#CD7F32', textShadow: '0 0 10px rgba(205, 127, 50, 0.2)' }}>3rd</div>
-                      <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-grotesk)', fontSize: '24px', fontWeight: 700, marginTop: '16px', marginBottom: '16px' }}>
-                        {getInitials(rankedStudents[2].name)}
+                      
+                      <div className="avatar-frame avatar-frame-bronze" style={{ width: '80px', height: '80px', marginTop: '16px', marginBottom: '16px' }}>
+                        <div style={{ fontFamily: 'var(--font-grotesk)', fontSize: '22px', fontWeight: 700, color: '#CD7F32' }}>
+                          {getInitials(rankedStudents[2].name)}
+                        </div>
                       </div>
-                      <div style={{ fontFamily: 'var(--font-grotesk)', fontSize: '20px', fontWeight: 700, marginBottom: '24px', textAlign: 'center' }}>{rankedStudents[2].name}</div>
 
-                      <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '13px' }}><span style={{ color: 'var(--text-muted)' }}>Attendance</span><span>{rankedStudents[2].attendanceCount}</span></div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '13px' }}><span style={{ color: 'var(--text-muted)' }}>Points</span><span>{rankedStudents[2].manualPoints}</span></div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '16px', fontWeight: 600, color: 'var(--accent)', marginTop: '8px', paddingTop: '8px', borderTop: '1px solid var(--border-subtle)' }}><span>Score</span><span>{rankedStudents[2].score}</span></div>
+                      <div style={{ fontFamily: 'var(--font-inter), var(--font-sans)', fontSize: '18px', fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--text-primary)', marginBottom: '20px', textAlign: 'center' }}>
+                        {rankedStudents[2].name}
+                      </div>
+
+                      <div style={{ width: '100%', display: 'flex', gap: '12px', borderBottom: '1px solid rgba(255, 255, 255, 0.03)', paddingBottom: '16px', marginBottom: '4px' }}>
+                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+                          <span className="podium-stat-label">Attendance</span>
+                          <span className="podium-stat-val">{rankedStudents[2].attendanceCount}</span>
+                        </div>
+                        <div style={{ width: '1px', background: 'rgba(255, 255, 255, 0.06)' }} />
+                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+                          <span className="podium-stat-label">Points</span>
+                          <span className="podium-stat-val">+{rankedStudents[2].manualPoints}</span>
+                        </div>
+                      </div>
+
+                      <div className="podium-score-pill">
+                        <span className="podium-stat-label">Total Score</span>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '18px', fontWeight: 700, color: '#CD7F32' }}>{rankedStudents[2].score}</span>
                       </div>
                     </div>
                   )}
