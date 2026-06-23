@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSessions, addSession } from '@/lib/db';
+import { revalidateTag } from 'next/cache';
 
 export const dynamic = 'force-dynamic';
 
@@ -43,6 +44,7 @@ export async function POST(request: Request) {
     }
 
     const session = await addSession(title.trim(), lecture_start, lecture_end, safeLink);
+    revalidateTag('leaderboard');
     return NextResponse.json(session, { status: 201 });
   } catch (err) {
     const msg = err instanceof Error ? err.message : 'Failed to create session';

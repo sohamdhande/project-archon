@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { removeSession, updateSession, prisma } from '@/lib/db';
+import { revalidateTag } from 'next/cache';
 
 export async function DELETE(
   _request: Request,
@@ -11,6 +12,7 @@ export async function DELETE(
       return NextResponse.json({ error: 'Cannot delete session with attendance records' }, { status: 400 });
     }
     await removeSession(params.id);
+    revalidateTag('leaderboard');
     return NextResponse.json({ success: true });
   } catch (error) {
     const e = error as { code?: string };
@@ -55,6 +57,7 @@ export async function PATCH(
     }
 
     const session = await updateSession(params.id, title.trim(), lecture_start, lecture_end, safeLink);
+    revalidateTag('leaderboard');
     return NextResponse.json(session, { status: 200 });
   } catch (err) {
     const msg = err instanceof Error ? err.message : 'Failed to update session';

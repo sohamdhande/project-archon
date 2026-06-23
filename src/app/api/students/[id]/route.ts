@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { removeStudent, updateStudentPoints } from '@/lib/db';
+import { revalidateTag } from 'next/cache';
 
 export async function DELETE(
   _request: Request,
@@ -7,6 +8,7 @@ export async function DELETE(
 ) {
   try {
     await removeStudent(params.id);
+    revalidateTag('leaderboard');
     return NextResponse.json({ success: true });
   } catch (error) {
     const e = error as { code?: string };
@@ -29,6 +31,7 @@ export async function PATCH(
     }
 
     const student = await updateStudentPoints(params.id, points);
+    revalidateTag('leaderboard');
     return NextResponse.json(student);
   } catch (error) {
     const e = error as { code?: string };

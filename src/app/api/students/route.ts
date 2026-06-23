@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getStudents, addStudent } from '@/lib/db';
+import { revalidateTag } from 'next/cache';
 
 export const dynamic = 'force-dynamic';
 
@@ -21,6 +22,7 @@ export async function POST(request: Request) {
     }
 
     const student = await addStudent(name.trim());
+    revalidateTag('leaderboard');
     return NextResponse.json(student, { status: 201 });
   } catch (error) {
     const e = error as { code?: string };

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { verifyJwt } from '@/lib/auth';
 import { cookies } from 'next/headers';
+import { revalidateTag } from 'next/cache';
 
 export async function POST(request: Request) {
   try {
@@ -40,6 +41,8 @@ export async function POST(request: Request) {
         });
       }
     });
+
+    revalidateTag('leaderboard');
 
     return NextResponse.json({ success: true });
   } catch {
