@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { SessionModal } from '@/components/admin/SessionModal';
 
-type Student = { id: string; name: string; manualPoints: number; score?: number };
+type Student = { id: string; name: string; manualPoints: number; score?: number; attendanceCount?: number };
 type Session = { id: string; title: string; lecture_start: string; lecture_end: string; meetLink?: string };
 type AttendanceRecord = { studentId: string; sessionId: string };
 
