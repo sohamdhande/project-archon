@@ -1,14 +1,16 @@
 import { jwtVerify, SignJWT } from 'jose';
 
-const JWT_SECRET = process.env.JWT_SECRET;
-if (!JWT_SECRET) {
-  throw new Error("CRITICAL: JWT_SECRET environment variable is missing.");
+function getSecretKey() {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    throw new Error("CRITICAL: JWT_SECRET environment variable is missing.");
+  }
+  return new TextEncoder().encode(secret);
 }
-const secretKey = new TextEncoder().encode(JWT_SECRET);
 
 export async function verifyJwt(token: string) {
   try {
-    const { payload } = await jwtVerify(token, secretKey);
+    const { payload } = await jwtVerify(token, getSecretKey());
     return payload;
   } catch {
     return null;
@@ -20,6 +22,6 @@ export async function signJwt(payload: Record<string, unknown>) {
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
     .setExpirationTime('8h')
-    .sign(secretKey);
+    .sign(getSecretKey());
   return token;
 }
