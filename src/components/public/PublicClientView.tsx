@@ -306,7 +306,7 @@ export default function PublicClientView({ rankedStudents, activeSession, upcomi
                             <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-grotesk)', fontSize: '12px', fontWeight: 600 }}>
                               {getInitials(s.name)}
                             </div>
-                            <span style={{ fontFamily: 'var(--font-sans)', fontSize: '15px', fontWeight: 500, color: 'var(--text-primary)' }}>{s.name}</span>
+                            <span style={{ fontFamily: 'var(--font-inter), var(--font-sans)', fontSize: '15px', fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--text-primary)', textTransform: 'uppercase' }}>{s.name}</span>
                           </div>
                         </td>
                         <td className="table-body-cell-right">
