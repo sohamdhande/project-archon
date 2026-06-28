@@ -1,14 +1,14 @@
 import { unstable_cache } from 'next/cache';
-import { prisma } from '@/lib/db';
+import { getStudents, getSessions, getAttendance } from '@/lib/db';
 
 const getCachedLeaderboardData = unstable_cache(
   async () => {
-    // These calls query the database.
+    // These calls query the Google Spreadsheet.
     // If they fail, they will throw, and the caller can handle the error.
     const [students, sessions, attendance] = await Promise.all([
-      prisma.student.findMany(),
-      prisma.session.findMany({ orderBy: { lecture_start: 'asc' } }),
-      prisma.attendance.findMany()
+      getStudents(),
+      getSessions(),
+      getAttendance()
     ]);
 
     return {

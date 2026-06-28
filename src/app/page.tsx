@@ -53,19 +53,13 @@ export default async function PublicPage() {
     );
   }
 
-  const getAttendanceCount = (studentId: string) =>
-    attendance.filter((a: { studentId: string }) => a.studentId === studentId).length;
-
-  const getScore = (student: typeof students[0]) =>
-    getAttendanceCount(student.id) * 5 + student.manualPoints;
-
   const sorted = [...students]
     .map((s) => ({
       id: s.id,
       name: s.name,
       manualPoints: s.manualPoints,
-      score: getScore(s),
-      attendanceCount: getAttendanceCount(s.id)
+      score: s.score,
+      attendanceCount: s.attendanceCount
     }))
     .sort((a, b) => b.score - a.score);
 
@@ -77,26 +71,19 @@ export default async function PublicPage() {
     return { ...s, rank: currentRank };
   });
 
-  // Find active and all upcoming sessions
+  // Find active and all upcoming sessions (always empty in read-only mode)
   let activeSession = null;
   const upcomingSessions: typeof sessions = [];
 
-  for (const s of sessions) {
-    if (s.lecture_end > now) {
-      if (s.lecture_start <= now) {
-        activeSession = s;
-      } else {
-        upcomingSessions.push(s);
-      }
-    }
-  }
+  // Determine total sessions dynamically as the maximum of all students' attendanceCount
+  const totalSessions = Math.max(...students.map((s) => s.attendanceCount), 0);
 
   return (
     <PublicClientView 
       rankedStudents={rankedStudents}
       activeSession={activeSession}
       upcomingSessions={upcomingSessions}
-      totalSessions={sessions.length}
+      totalSessions={totalSessions}
     />
   );
 }

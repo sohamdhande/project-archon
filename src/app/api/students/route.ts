@@ -14,22 +14,8 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  try {
-    const { name } = await request.json();
-
-    if (!name || typeof name !== 'string' || !name.trim()) {
-      return NextResponse.json({ error: 'Name is required' }, { status: 400 });
-    }
-
-    const student = await addStudent(name.trim());
-    revalidateTag('leaderboard');
-    return NextResponse.json(student, { status: 201 });
-  } catch (error) {
-    const e = error as { code?: string };
-    // Prisma unique constraint violation
-    if (e?.code === 'P2002') {
-      return NextResponse.json({ error: 'Student already exists' }, { status: 409 });
-    }
-    return NextResponse.json({ error: 'Failed to create student' }, { status: 500 });
-  }
+  return NextResponse.json(
+    { error: 'Database is read-only. Please make edits directly in the Google Spreadsheet.' },
+    { status: 405 }
+  );
 }
